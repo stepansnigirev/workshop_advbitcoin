@@ -5,3 +5,4 @@
 - [ ] vue.js example (number of blocks in bitcoin core)
 - [ ] Vision document
 - [ ] Workshop repo -> gist
+- [ ] Flight and accomodation
