@@ -6,7 +6,7 @@
 * your favorite IDE, VisualStudioCode if you don't have one. If you use your own, we assume that you know how you can debug flask applications
 * optional: Have a testing hardwarewallet, one of coldcard, Specter-DIY or any other compatible HWI-compatible hardwarewallet
 
-# Chapter 1 - Setup
+# Setup (Kim)
 Goal and intermediate steps:
 * Run the software in development-mode (modifyable sources immediately detected) without a bitcoincore on port 25441
 * Creating a device based on Specter-DIY
@@ -17,4 +17,22 @@ Goal and intermediate steps:
   * On the IDE run all the tests or soecific ones
 * Add breakpoints and debug the tests
 * Add breakpoints and debug the application (port 5000)
+
+# Setup hardware-hacking (Stepan)
+* Download the firmware from somewhere and deploy on hardware
+
+
+# Coinselection (Kim)
+
+* Investigate current aspects relevant to coinselection
+* Think and define the different steps to implement
+* Implement list on UI
+* adjust controller (test?!)
+* adjust createpsbt-method (test!)
+
+* take unconfimed transaction into account
+
+* Hide UI (extended functionality) with javascript
+
+# Advanced Transaction-verification on hardwarewallet (Stepan)
 
