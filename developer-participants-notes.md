@@ -24,15 +24,31 @@ Goal and intermediate steps:
 
 # Coinselection (Kim)
 
-* Investigate current aspects relevant to coinselection
-* Think and define the different steps to implement
-* Implement list on UI
-* adjust controller (test?!)
-* adjust createpsbt-method (test!)
+## Investigate current aspects relevant to coinselection
+* Start Specter-desktop, go to the spend-page: http://127.0.0.1:25441/wallets/simple/send/
+* guides us to the controller: controller.py[274]
+* guides us to the template: wallet_send.html
+* guides us as well to the createpsbt-method which will use the coins selected to create the psbt
+* That means we now know which places we have to modify in specter-desktop:
+  * wallet_send.py - create the UI-list of potential coins selectable
+  * wallet_send-controller - grabbing the selected coins from the request.form + passing it in createpsbt
+  * wallet.createpsbt - adjusting the code there to select the coins
 
-* take unconfimed transaction into account
+## Implement list on UI
 
-* Hide UI (extended functionality) with javascript
+'''
+Some code for cut&paste here
+'''
+
+## adjust controller (test?!)
+* '''request.form.getlist('hello')''' is the magic here
+
+## adjust createpsbt-method (test!)
+* Investigate test_specter.py[] last function.
+
+## take unconfimed transaction into account
+
+## Hide UI (extended functionality) with javascript
 
 # Advanced Transaction-verification on hardwarewallet (Stepan)
 
