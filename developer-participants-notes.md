@@ -93,7 +93,41 @@ Goal and intermediate steps:
 
 ## adjust createpsbt-method (test!)
 * Investigate test_specter.py[] last function
-* At least here we are on a level where we might have testst
+* At least here we are on a level where we might have tests
+* So let's create our own new test which checks the functionality. We'll copy a lot of code from the test before.
+``` 
+def test_wallet_createpsbt(bitcoin_regtest, devices_filled_data_folder, device_manager):
+    wm = WalletManager(devices_filled_data_folder,bitcoin_regtest.get_cli(),"regtest")
+    # A wallet-creation needs a device
+    device = device_manager.get_by_alias('specter')
+    key = {
+        "derivation": "m/48h/1h/0h/2h",
+        "original": "Vpub5n9kKePTPPGtw3RddeJWJe29epEyBBcoHbbPi5HhpoG2kTVsSCUzsad33RJUt3LktEUUPPofcZczuudnwR7ZgkAkT6N2K2Z7wdyjYrVAkXM",
+        "fingerprint": "08686ac6",
+        "type": "wsh",
+        "xpub": "tpubDFHpKypXq4kwUrqLotPs6fCic5bFqTRGMBaTi9s5YwwGymE8FLGwB2kDXALxqvNwFxB1dLWYBmmeFVjmUSdt2AsaQuPmkyPLBKRZW8BGCiL"
+    }
+    wallet = wm.create_simple('a_second_test_wallet','wpkh',key,device)
+    # Let's fund the wallet with ... let's say 10 X 50 coins for us
+    address = wallet.getnewaddress()
+    assert address == 'bcrt1qtnrv2jpygx2ef3zqfjhqplnycxak2m6ljnhq6z'
+    # newly minted coins need 100 blocks to get spendable
+    wallet.cli.generatetoaddress(40, address)
+    # let's mine another 100 blocks to get these coins spendable
+    random_address = "mruae2834buqxk77oaVpephnA5ZAxNNJ1r"
+    wallet.cli.generatetoaddress(110, random_address)
+    # Now we have loads of potential inputs
+    # Let's sepnd 500 coins
+    assert wallet.getfullbalance() >= 500
+    # From this print-statement, let's grab some txids which we'll use for coinselect
+    #print(wallet.cli.listunspent())
+    selected_coins = ['d889b7c8fe44bac7c843c63f144b2eb4efe29ea352b10eadbf0b7dfea9f2945d', 
+                    'f50b546f74f20fc13bcddddb71c153631bdc5d24cfdce564bfac0882885c8973',
+                    'a785bfa0d8289565b7b20fa9278299c47cf45bd62f04caba3659fcc056715e9a']
+    
+    psbt = wallet.createpsbt(random_address, 20, True, 10, selected_coins=selected_coins)
+    assert len(psbt['tx']['vin']) == 3
+``` 
 * Let's look at the tests
 
 
