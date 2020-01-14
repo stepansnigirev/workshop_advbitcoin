@@ -92,7 +92,10 @@ Goal and intermediate steps:
 * pass that into the coinselect-method
 
 ## adjust createpsbt-method (test!)
-* Investigate test_specter.py[] last function.
+* Investigate test_specter.py[] last function
+* At least here we are on a level where we might have testst
+* Let's look at the tests
+
 
 ## take unconfimed transaction into account
 
