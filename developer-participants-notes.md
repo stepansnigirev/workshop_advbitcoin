@@ -22,7 +22,7 @@ Goal and intermediate steps:
 * Download the firmware from somewhere and deploy on hardware
 
 
-# Coinselection (Kim)
+# Coinselection
 
 ## Investigate current aspects relevant to coinselection
 * Start Specter-desktop, go to the spend-page: http://127.0.0.1:25441/wallets/simple/send/
@@ -153,7 +153,12 @@ def test_wallet_createpsbt(bitcoin_regtest, devices_filled_data_folder, device_m
                         break;
 ```
 
-## Hide UI (extended functionality) with javascript
+
+# Advanced Transaction-verification on hardwarewallet (Stepan)
+
+
+
+## Hide UI (extended functionality) with vue.js
 * Let's do a toggling of the feature and unexpand by default
 * let's use vue.js at the bottom of the page (to be fixed! Maybe in main-template?!):
 ```
@@ -179,7 +184,9 @@ def test_wallet_createpsbt(bitcoin_regtest, devices_filled_data_folder, device_m
 * bind the table's style attribute to the value of the coinselection: ``` <table v-bind:style="{ visibility: coinselectionActive }"> ```
 * Done
 
-## Check whether selected coins are sufficient
+## 
+
+## Check whether selected coins are sufficient (Skipped, Homework)
 * If someone IS selecting coins, he should/want to select ALL of them.
 * If he doesn't do it, Core might add coins to that, which don't want to use
 * So let's first make sure that we test that server-side and adjust the test:
@@ -239,5 +246,4 @@ ToBeDone
 
 ## take unconfimed transaction into account
 
-# Advanced Transaction-verification on hardwarewallet (Stepan)
 
