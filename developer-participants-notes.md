@@ -95,6 +95,7 @@ Goal and intermediate steps:
 * Investigate test_specter.py[] last function
 * At least here we are on a level where we might have tests
 * So let's create our own new test which checks the functionality. We'll copy a lot of code from the test before.
+  * Spending mined coins has the advantage of stable txids
 ``` 
 def test_wallet_createpsbt(bitcoin_regtest, devices_filled_data_folder, device_manager):
     wm = WalletManager(devices_filled_data_folder,bitcoin_regtest.get_cli(),"regtest")
@@ -136,7 +137,43 @@ def test_wallet_createpsbt(bitcoin_regtest, devices_filled_data_folder, device_m
     for coin in selected_coins:
         assert coin in psbt_txs
 ``` 
-* Let's look at the tests
+* The implementation should be trivial with this test
+  * Ignoring the possibility to have coins selected which are not confirmed
+  * Assuming that no one selected coins if his full balance is not even enough and we need unconfirmed coins
+  * ==> in that case you simply need to have an else case like this:
+```
+        else:
+            txlist = self.cli.listunspent()
+            still_needed = amount
+            for tx in txlist:
+                if tx['txid'] in selected_coins:
+                    extra_inputs.append({"txid": tx["txid"], "vout": tx["vout"]})
+                    still_needed -= tx["amount"]
+                    if still_needed < 0:
+                        break;
+```
+
+## A bit better UX: Coinselection as an extended feature and warning the user if not selected enough
+* Let's do a toggling of the feature and unexpand by default
+* let's use vue.js at the bottom of the page:
+```
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+```
+* So after that, we'll create a vue.js application which fulffills these requirements:
+  * need to adjust the delimiters as the flask is using the same: ``` delimiters: ["[[", "]]"] ```
+  * has data which simply shows whether the table is expanded: ``` data: { coinselection: "hidden" } ```
+  * has one method which toggles from "hidden" to "visible":
+```
+  methods: {
+        toggleExpand: function() {
+			if (this.coinselectionActive =="hidden") {
+				this.coinselectionActive ="visible"
+			} else {
+				this.coinselectionActive ="hidden"
+			}
+		}
+   }
+```
 
 
 ## take unconfimed transaction into account
