@@ -153,9 +153,9 @@ def test_wallet_createpsbt(bitcoin_regtest, devices_filled_data_folder, device_m
                         break;
 ```
 
-## A bit better UX: Coinselection as an extended feature and warning the user if not selected enough
+## Hide UI (extended functionality) with javascript
 * Let's do a toggling of the feature and unexpand by default
-* let's use vue.js at the bottom of the page:
+* let's use vue.js at the bottom of the page (to be fixed! Maybe in main-template?!):
 ```
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 ```
@@ -177,11 +177,43 @@ def test_wallet_createpsbt(bitcoin_regtest, devices_filled_data_folder, device_m
 * Now modify the div to have is under control of vuejs: ``` <div id="coinselect"> ```
 * add a button which will toggle: ``` <button v-on:click="toggleExpand" type="button">Expand</button> ```
 * bind the table's style attribute to the value of the coinselection: ``` <table v-bind:style="{ visibility: coinselectionActive }"> ```
+* Done
+
+## Check whether selected coins are sufficient
+* If someone IS selecting coins, he should/want to select ALL of them.
+* If he doesn't do it, Core might add coins to that, which don't want to use
+* So let's first make sure that we test that server-side and adjust the test:
+```
+ToBeDone
+```
+* And implement it serverside
+```
+ToBeDone
+```
+* Let's implement that now client-side and check it via Vue.js
+* Add the list of unspent to the vue.js-data: unspents: ``` {{ wallet.cli.listunspent()|tojson }} ```
+* As we wamt to sumup the checked amounts and we want to do that in the model, we need to replace the jinja2 created list with a vue-js rendered list. We can replace the whole ```{% for tx in wallet... %}...{% endfor %}``` with this:
+```
+						<tr v-for="tx in unspents" v-bind:key="tx.txid">
+							<!-- <img v-if="tx.category == 'immature'" src="/static/img/unconfirmed_receive_icon.svg"/>
+							<img v-if="tx.confirmations == 0'" src="/static/img/unconfirmed_[[ tx.category ]]_icon.svg"/>
+							<img v-else src="/static/img/[[ tx.category ]]_icon.svg"/> -->
+							<td><input type="checkbox" name="coinselect" value="[[ tx.txid ]]"></td> 
+							<td class="tx scroll"><a target="blank" >[[ tx.txid ]]</a></td>
+							<td class="tx scroll"><a target="blank" >[[ tx.address ]]</a></td>
+							<td>[[ tx.amount ]]</td>
+							<td v-if="tx.confirmations == 0">Pending</td>
+							<td v-else>[[ tx.confirmations ]]</td>
+						</tr>
+```
+* We've lost some features like the href and the conditional image rendering (commented) but let's deal with that later (TODO)
+* This should already render properly, but now we need to bind that back to the data. That's done with v-bind which we want to bind to the txid
+```
+<tr v-for="tx in unspents" v-bind:key="tx.txid">
+```
 
 
 ## take unconfimed transaction into account
-
-## Hide UI (extended functionality) with javascript
 
 # Advanced Transaction-verification on hardwarewallet (Stepan)
 
