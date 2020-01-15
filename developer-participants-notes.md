@@ -174,6 +174,9 @@ def test_wallet_createpsbt(bitcoin_regtest, devices_filled_data_folder, device_m
 		}
    }
 ```
+* Now modify the div to have is under control of vuejs: ``` <div id="coinselect"> ```
+* add a button which will toggle: ``` <button v-on:click="toggleExpand" type="button">Expand</button> ```
+* bind the table's style attribute to the value of the coinselection: ``` <table v-bind:style="{ visibility: coinselectionActive }"> ```
 
 
 ## take unconfimed transaction into account
