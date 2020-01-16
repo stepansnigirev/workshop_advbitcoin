@@ -124,15 +124,15 @@ def test_wallet_createpsbt(bitcoin_regtest, devices_filled_data_folder, device_m
     # Let's spend 500 coins
     assert wallet.getfullbalance() >= 500
     # From this print-statement, let's grab some txids which we'll use for coinselect
-    #print(wallet.cli.listunspent())
-    selected_coins = ['dc229dfd4b1f99de7a6284ba90dbbeb2ed13dfdd5829b56a0378301a50e30a57', 
-                    'c119ab140fd0da414476e5dfd52c0f83c0e2e09fcab8d830d3898e74432a2567',
-                    '8b4fdc339a32351c5eeef546d5b8a336f287727fbb427c8676d3d552bfdb0397']
-    # Let's make sure the selected_coins are really in the listunspent
-    all_unspent = [ tx['txid'] for tx in wallet.cli.listunspent() ]
-    assert set(selected_coins).issubset(all_unspent)
-    psbt = wallet.createpsbt(random_address, 154, True, 10, selected_coins=selected_coins)
-    assert len(psbt['tx']['vin']) == 4
+    unspents = wallet.cli.listunspent()
+    # Lets take 3 more or less random txs from the unspents:
+    selected_coins = [unspents[5]['txid'], 
+                    unspents[9]['txid'],
+                    unspents[12]['txid']]
+    selected_coins_amount_sum = unspents[5]['amount'] + unspents[9]['amount'] + unspents[12]['amount']
+    number_of_coins_to_spend = selected_coins_amount_sum - 0.1 # Let's spend almost all of them 
+    psbt = wallet.createpsbt(random_address, number_of_coins_to_spend, True, 10, selected_coins=selected_coins)
+    assert len(psbt['tx']['vin']) == 3
     psbt_txs = [ tx['txid'] for tx in psbt['tx']['vin'] ]
     for coin in selected_coins:
         assert coin in psbt_txs
