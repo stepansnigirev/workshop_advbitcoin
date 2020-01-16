@@ -268,13 +268,19 @@ var app = new Vue({
 ## Check whether selected coins are sufficient (Skipped, Homework)
 * If someone IS selecting coins, he should/want to select ALL of them.
 * If he doesn't do it, Core might add coins to that, which don't want to use
-* So let's first make sure that we test that server-side and adjust the test:
+* So let's first make sure that we test that server-side and adjust the test. Add this to the end:
 ```
-ToBeDone
+    # Now let's spend more coins then we have selected. This should result in an exception:
+    try:
+        psbt = wallet.createpsbt(random_address, number_of_coins_to_spend +1, True, 10, selected_coins=selected_coins)
+        assert False, "should throw an exception!"
+    except SpecterError as e:
+        pass
 ```
-* And implement it serverside
+* And implement it serverside (after the if/else-statement):
 ```
-ToBeDone
+            if still_needed > 0:
+                raise SpecterError("Selected coins does not cover Full amount! Please select more coins!")
 ```
 * Let's implement that now client-side and check it via Vue.js
 * Add the list of unspent to the vue.js-data: unspents: ``` {{ wallet.cli.listunspent()|tojson }} ```
