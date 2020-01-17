@@ -10,11 +10,12 @@ For each workshop, we'll create two documents:
 # General info
 
 Testnet & Signet nodes available:
-http(s)://testnet.specterwallet.io
-http(s)://signet.specterwallet.io
-port: 80
-rpcuser: specter
-rpcpassword: TruckWordTrophySolidVintageFieldGalaxyOrphanSeek
+
+- http(s)://testnet.specterwallet.io
+- http(s)://signet.specterwallet.io
+- port: 80
+- rpcuser: specter
+- rpcpassword: TruckWordTrophySolidVintageFieldGalaxyOrphanSeek
 
 # TODO
 
