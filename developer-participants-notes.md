@@ -160,7 +160,7 @@ def test_wallet_createpsbt(bitcoin_regtest, devices_filled_data_folder, device_m
 # CoinSelection UI/UX optimized
 All the improvements in this chapter will be done with the help of vue.js. We're not assuming you have any knowledge about vue.js. So let's have a crashcourse in vue.js first
 
-## Crash Course in vue.js
+## Crash Course in vue.js (Exercise in "Command and Contemplation")
 * copy these lines somewhere in controller.py
 ```
 @app.route('/vuejs/crashcourse/', methods=['GET'])
@@ -234,8 +234,8 @@ var app = new Vue({
 
 {% endblock %}
 ```
-* Investigate what you just have created!
-
+* Contemplate about what you just have created!
+* Delete it not yet, you might need it later
 
 ## Hide UI (extended functionality) with vue.js
 * Let's do a toggling of the feature and unexpand by default
