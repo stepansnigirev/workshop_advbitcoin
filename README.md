@@ -7,6 +7,14 @@ For each workshop, we'll create two documents:
 * the participants-notes which we'll later copy to a public gist for use of the participants.
 * the internal-notes which is not intended for publishing
 
+# General info
+
+Testnet & Signet nodes available:
+http(s)://testnet.specterwallet.io
+http(s)://signet.specterwallet.io
+port: 80
+rpcuser: specter
+rpcpassword: TruckWordTrophySolidVintageFieldGalaxyOrphanSeek
 
 # TODO
 
