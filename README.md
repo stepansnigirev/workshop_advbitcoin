@@ -17,11 +17,19 @@ Testnet & Signet nodes available:
 - rpcuser: specter
 - rpcpassword: TruckWordTrophySolidVintageFieldGalaxyOrphanSeek
 
+
+## Table of contents
+
+- [Step 1. Setup Desktop](./1_setup_desktop/README.md) The foundation of effective Development is a good Development-Setup
+- [Step 2. Investigate for coin selection](./2_coinselection_investigate/README.md) look at the stuff which is relevant for coin selection
+- [Step 3. Unspents List](./3_coinselection_list_rendering/README.md) Render the unspent transactions
+- [Step 4. coinselection_controller_logic](./4_coin_selection_controller_logic/README.md) Implement controller and logic
+- [Step 5. Setup Specter-DIY](./5_setup_diy/README.md) The foundation of effective Development is a good Development-Setup
+- [Step 6. Implement Selection Viewing](./6_coin_selection_diy/README.md) Implement on hardware-side
+
 # TODO
 
-- [ ] Set up Trello
-- [ ] "Design Guide" section in development
-- [ ] vue.js example (number of blocks in bitcoin core)
+- [X] Set up Trello
+- [X] "Design Guide" section in development (PR)
 - [ ] Vision document
-- [ ] Workshop repo -> gist
-- [ ] Flight and accomodation
+- [X] Flight and accomodation
