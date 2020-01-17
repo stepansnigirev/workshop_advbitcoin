@@ -13,7 +13,7 @@ Testnet & Signet nodes available:
 
 - http(s)://testnet.specterwallet.io
 - http(s)://signet.specterwallet.io
-- port: 80
+- port: 80 for http, 443 for https
 - rpcuser: specter
 - rpcpassword: TruckWordTrophySolidVintageFieldGalaxyOrphanSeek
 
