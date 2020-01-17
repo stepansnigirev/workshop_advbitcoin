@@ -56,9 +56,27 @@
 ```
 * Now, we have to compare that against the Amount-value in the input-box and print-out some warning if amount < selected_coins_sum (in the case that the coinselection is expanded)
 * However, the Amount-input-box is not (yet) managed by Vue. So let's change that, wrap the form in a div, rename the app to "spend_coins" ( ```el: '#spend_coins'```) and mark the div with that id: ``` <div id="spend_coins"> ```
-* Now let's move the ```{{amount}}``` from the input-field to the data and bind the data to the input-field similiar to the checkbox. v-model and v-bind:value is your friend
+* Now let's move the ```{{amount}}``` from the input-field to the data and bind the data to the input-field similiar to the checkbox. v-model is your friend
 * you can check whether you're right by evaluating ``` spend_coins.amount ``` in the console
 * Now we need to show a warning if the counselection is active AND the selected coins are not > then the amount the user wants to transfer
 ```
 <div class="notification error" v-if="amount > selected_coins_sum && coinselectionActive != 'hidden'"> You need to select more coins to match your amount!</div>
+```
+* Something very similiar is wanted for the submit-button. Let's disable the button if we have issues (same condition than the error-message above):
+```
+v-bind:disabled="amount > selected_coins_sum && coinselectionActive != 'hidden'"
+```
+* There is however, a change in appearance if you hover over the button. Let's get rid of that (not very nice, though):
+```
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+.btn:not(.disabled):hover {  
+	border: 1px solid #999999;
+	background-color: #cccccc;
+	color: #666666; 
+}
 ```
