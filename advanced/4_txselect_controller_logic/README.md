@@ -1,7 +1,9 @@
 
-## adjust controller (test?!)
-* ```request.form.getlist('hello')``` does the magic here
-* pass that into the coinselect-method
+## adjust controller
+* The list of unspent txs need to be obtained from the request
+* [Googling](https://www.google.com/search?q=flask+list+post+checkboxes) might help here
+* obtain the list and
+* pass that as argument into the createpsbt-method
 
 ## adjust createpsbt-method (test!)
 * Investigate test_specter.py[] last function
@@ -52,15 +54,3 @@ def test_wallet_createpsbt(bitcoin_regtest, devices_filled_data_folder, device_m
 * The implementation should be trivial with this test
   * Ignoring the possibility to have coins selected which are not confirmed
   * Assuming that no one selected coins if his full balance is not even enough and we need unconfirmed coins
-  * ==> in that case you simply need to have an else case like this:
-```
-        else:
-            txlist = self.cli.listunspent()
-            still_needed = amount
-            for tx in txlist:
-                if tx['txid'] in selected_coins:
-                    extra_inputs.append({"txid": tx["txid"], "vout": tx["vout"]})
-                    still_needed -= tx["amount"]
-                    if still_needed < 0:
-                        break;
-```
