@@ -9,15 +9,15 @@
 
 # Table of contents
 
-- [Step 1. Setup Desktop](./1_setup_desktop/README.md) The foundation of effective Development is a good Development-Setup
-- [Step 2. Investigate for coin selection](./2_txselect_investigate/README.md) look at the stuff which is relevant for coin selection
-- [Step 3. Unspents List](./3_txselect_list_rendering/README.md) Render the unspent transactions
-- [Step 4. coinselection_controller_logic](./4_txselect_controller_logic/README.md) Implement controller and logic
-- [Step 5. Setup Specter-DIY](./5_setup_diy/README.md) The foundation of effective Development is a good Development-Setup
-- [Step 6. Implement Selection Viewing](./6_txselect_diy/README.md) Implement on hardware-side
-- [Step 7. Implement Selection Viewing](./7_txselect_diy/README.md) Implement2 on hardware-side
-- [Step 8. Implement Selection Viewing](./8_txselect_diy/README.md) Implement3 on hardware-side
-- [Step 9. Implement Selection Viewing](./9_txselect_diy/README.md) Implement4 on hardware-side
+- [Step 1. Setup Desktop](./01_setup_desktop/README.md) The foundation of effective Development is a good Development-Setup
+- [Step 2. Investigate for coin selection](./02_txselect_investigate/README.md) look at the stuff which is relevant for coin selection
+- [Step 3. Unspents List](./03_txselect_rendering/README.md) Render the unspent transactions
+- [Step 4. coinselection_controller_logic](./04_txselect_controller_logic/README.md) Implement controller and logic
+- [Step 5. Setup Specter-DIY](./05_setup_diy/README.md) The foundation of effective Development is a good Development-Setup
+- [Step 6. Implement Selection Viewing](./06_txselect_diy/README.md) Implement on hardware-side
+- [Step 7. Implement Selection Viewing](./07_txselect_diy/README.md) Implement2 on hardware-side
+- [Step 8. Implement Selection Viewing](./08_txselect_diy/README.md) Implement3 on hardware-side
+- [Step 9. Implement Selection Viewing](./09_txselect_diy/README.md) Implement4 on hardware-side
 
 - [Step 10. Vue.js crashcourse](./10_vuejs_crashcourse/README.md) Get an idea how vuejs works in minimum time
 - [Step 11. Coinselection UX part1](./11_txselect_ux_part1/README.md) Make Coinselection an extended feature UX-wise
