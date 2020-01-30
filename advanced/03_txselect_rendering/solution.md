@@ -24,3 +24,5 @@
 			</div>
 
 ```
+
+The css is definitely improvable. Suggestions highly welcome. Especially about the style-things.
