@@ -85,3 +85,8 @@ var app = new Vue({
 ```
 * Contemplate about what you just have created!
 * Delete it not yet, you might need it later
+
+to catchup:
+```
+git checkout upstream training/step10
+```
