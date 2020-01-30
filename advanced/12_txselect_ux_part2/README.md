@@ -1,8 +1,7 @@
 
 # Check whether selected coins are sufficient
-* If someone IS selecting coins, he should/want to select all coins needed to cover the amount he want to send.
+* If someone **is** selecting coins, he should/want to select all coins needed to cover the amount he wants to send.
 * If he doesn't do it, Core might add coins to that, which he don't want to use
-* We have covered that in the unit-test in the other exercise but let's improve the UX for that requirement.
 * So let's first make sure that we test that server-side and adjust the test. Add this to the end of the test:
 ```
     # Now let's spend more coins then we have selected. This should result in an exception:
