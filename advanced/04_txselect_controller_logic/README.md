@@ -6,8 +6,8 @@
 * pass that as argument into the createpsbt-method
 
 ## adjust createpsbt-method (test!)
-* Investigate test_specter.py[] last function
-* At least here we are on a level where we might have tests
+* Investigate the last function in [test_specter.py](https://github.com/cryptoadvance/specter-desktop/blob/d9b9b2bc692bb3035b7806e6da7ca34bd7d418b0/tests/test_specter.py#L70-L131)
+* At least on that level we have some tests
 * So let's create our own new test which checks the functionality. We'll copy a lot of code from the test before.
   * Spending mined coins has the advantage of stable txids
 ``` 
