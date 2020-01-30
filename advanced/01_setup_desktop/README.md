@@ -7,8 +7,6 @@ This is a command and contemplation exercise.
 
 # Basic Setup
 
-This is mostly the same than on the Beginner-workshop. So you might want to skip this.
-
 * Git clone and get the server to run as described in [how to run](https://github.com/cryptoadvance/specter-desktop#how-to-run)
 * Choose your IDE. If you're not familiar wirh python and an IDE:
   * Download and run [Visual Studio Code](https://code.visualstudio.com/)
