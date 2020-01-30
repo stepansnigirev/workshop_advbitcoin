@@ -88,5 +88,5 @@ var app = new Vue({
 
 to catchup:
 ```
-git checkout upstream training/step10
+git checkout training/step10
 ```
