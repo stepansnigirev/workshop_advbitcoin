@@ -26,3 +26,8 @@
 ```
 
 The css is definitely improvable. Suggestions highly welcome. Especially about the style-things.
+
+To catchup:
+```
+git checkout training/step03
+```
