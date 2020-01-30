@@ -7,7 +7,7 @@ All the improvements in this chapter will be done with the help of vue.js. We're
 ```
 @app.route('/vuejs/crashcourse/', methods=['GET'])
 def vuejs_crashcourse():
-    return render_template("vuejscrashcourse.html", some_Value="Hello Vue.js", some_array=["one","two","three"])
+    return render_template("vuejscrashcourse.html", specter=app.specter, some_Value="Hello Vue.js", some_bool=True, some_array=[{"label":1},{"label":2},{"label":3}])
 ```
 * Create a new file in src/specter/templates/vuejscrashcourse.html with this content:
 ```
@@ -45,13 +45,18 @@ So vue-js manages a specific part of the html-page that's marked with an id defi
     We can loop back the status of the checkbox in the data by "v-model" and "v-bind:value"<br>
     The change of the data is immediately reflexted in rendering.<br>
     <div v-for="x in some_array">
-        <input type="checkbox" v-model="x.selected" v-bind:value="x" >[[ x ]]</input>
+        <input type="checkbox" v-model="x.selected" v-bind:value="x" >[[ x.label ]]</input>
     </div>
     End of crashcourse.
 
 </div>
 
+{% endblock %}
+{% block scripts %}
+<!--
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+-->
+
 <script>
 var app = new Vue({
 	el: '#app',
