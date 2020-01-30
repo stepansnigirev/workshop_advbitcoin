@@ -7,6 +7,12 @@
                 raise SpecterError("Selected coins does not cover Full amount! Please select more coins!")
 ```
 
+* However the test won't suceed! Why not?
+* The selected coins is empty, we're still entering the else-part. That's not intended and so we have to adjust the else part:
+```
+elif selected_coins != []: # Let's only do that if the user have selected coins!
+```
+
 # Migrate the list of unspent coins to Vue.js
 
 * Add the list of unspent to the vue.js-data: unspents: ``` {{ wallet.cli.listunspent()|tojson }} ```
@@ -14,15 +20,12 @@
 * As we want to sumup the checked amounts and we want to do that in the model, we need to replace the jinja2 created list with a vue-js rendered list. We can replace the whole ```{% for tx in wallet... %}...{% endfor %}``` with this:
 ```
 						<tr v-for="tx in unspents" v-bind:key="tx.txid">
-							<!-- <img v-if="tx.category == 'immature'" src="/static/img/unconfirmed_receive_icon.svg"/>
-							<img v-if="tx.confirmations == 0'" src="/static/img/unconfirmed_[[ tx.category ]]_icon.svg"/>
-							<img v-else src="/static/img/[[ tx.category ]]_icon.svg"/> -->
-							<td><input type="checkbox" name="coinselect" value="[[ tx.txid ]]"></td> 
-							<td class="tx scroll"><a target="blank" >[[ tx.txid ]]</a></td>
-							<td class="tx scroll"><a target="blank" >[[ tx.address ]]</a></td>
+							<td>
+								<input type="checkbox" v-model="tx.selected" name="coinselect" v-bind:value="tx.txid">
+							</td>
+							<td class="tx scroll"><a target="blank">[[ tx.txid ]]</a></td>
+							<td class="tx scroll"><a target="blank">[[ tx.address ]]}</a></td>
 							<td>[[ tx.amount ]]</td>
-							<td v-if="tx.confirmations == 0">Pending</td>
-							<td v-else>[[ tx.confirmations ]]</td>
 						</tr>
 ```
 
