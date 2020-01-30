@@ -54,6 +54,8 @@ So vue-js manages a specific part of the html-page that's marked with an id defi
 {% endblock %}
 {% block scripts %}
 <!--
+This is not needed as Specter is already automatically adding this
+in the base-template.
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 -->
 
