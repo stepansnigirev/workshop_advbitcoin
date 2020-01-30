@@ -91,3 +91,8 @@ The whole method:
         psbt["coldcard"]=cc_psbt.serialize()
         return psbt
 ```
+
+to catchup:
+```
+git checkout training/step04
+```
