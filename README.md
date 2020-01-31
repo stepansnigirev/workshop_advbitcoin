@@ -1,5 +1,11 @@
 # Purpose (to be removed)
 
+Links to the repos:
+
+- https://github.com/cryptoadvance/specter-diy
+- https://github.com/cryptoadvance/specter-desktop
+- https://github.com/diybitcoinhardware/f469-disco
+
 We'll have two workshops on the Advancing Bitcoin Conference in London:
 
 * One is focussing on curious devs that never worked with hardware. The goal is to guide them through first steps of hardware development and show that they can apply their knowledge for hardware wallets. MicroPython + programming HW from scratch on the devboard. Based on the [youtube series](https://www.youtube.com/playlist?list=PLn2qRQUAAg0z_-R0swVuSsNS9bzRu6oP5).
