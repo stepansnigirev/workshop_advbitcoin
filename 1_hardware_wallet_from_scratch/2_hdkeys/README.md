@@ -79,7 +79,7 @@ print("Your zpub:", account_pub.to_base58(version=network["zpub"]))
 
 Bitcoin Core wants a derivation path and a parent fingerprint in order to create PSBT transactions for you. So let's get it in the form that Bitcoin Core likes. It should be `[fingerprint/derivation]xpub`.
 
-The easiest way to get the fingerprint is to get a parent fingerprint of the root's child.
+Fingerprint is a `hash160` of the root public key and works as an identifier of our root key. The easiest way to get the fingerprint is to get a parent fingerprint of the root's child.
 
 ```python
 fingerprint = root_key.child(0).fingerprint
@@ -94,9 +94,37 @@ https://app.specterwallet.io
 
 Create a new device, call it somehow unique and import your zpub there.
 
-You could do the same with your own Bitcoin Core node, but it's beoynd this workshop.
+You could do the same with your own Bitcoin Core node.
 
 *Hint: `importmulti` command is what your want.*
+
+## Importing to Bitcoin Core
+
+Descriptor for native segwit addresses looks like this: `wpkh([fingerprint/derivation]tpub/0/*)` for receiving addresses and `.../1/*` for change addresses. Let's get this descriptor from our wallet:
+
+Create a new wallet in Bitcoin Core with private keys disabled (watch-only):
+
+```
+bitcoin-cli -regtest createwallet myhardwarewallet true
+```
+
+To import keys to the wallet we need to add checksums to the descriptor. `getdescriptorinfo` will help us to do it.
+
+```
+bitcoin-cli -regtest getdescriptorinfo "wpkh([b317ec86/84h/1h/0h]tpubDCKVXMvGq2YRczuCLcfcY8TaxHGjFTuhFrkRGpBk4DXmQeJXM3JAz8ijxTS59PZQBUtiq5wkstpzgvow7A25F4vDbmiAEy3rE4xHcR2XUUq/0/*)"
+```
+
+From the result copy the checksums and add them after the descriptor like this: `wsh(.../0/*)#2e3mrc2y`
+
+Great, now we can import 1000 receiving and change addresses to our wallet using descriptors with checksums:
+
+```
+bitcoin-cli -regtest -rpcwallet=myhardwarewallet importmulti '[{"desc":"wpkh([b317ec86/84h/1h/0h]tpubDCKVXMvGq2YRczuCLcfcY8TaxHGjFTuhFrkRGpBk4DXmQeJXM3JAz8ijxTS59PZQBUtiq5wkstpzgvow7A25F4vDbmiAEy3rE4xHcR2XUUq/0/*)#2e3mrc2y","timestamp":"now","range":[0,1000],"internal":false,"watchonly":true,"keypool":true},{"desc":"wpkh([b317ec86/84h/1h/0h]tpubDCKVXMvGq2YRczuCLcfcY8TaxHGjFTuhFrkRGpBk4DXmQeJXM3JAz8ijxTS59PZQBUtiq5wkstpzgvow7A25F4vDbmiAEy3rE4xHcR2XUUq/1/*)#md567d6u","timestamp":"now","range":[0,1000],"internal":true,"watchonly":true,"keypool":true}]' '{"rescan":false}'
+```
+
+Notice that first descriptor is marked as external (`"internal":false`) and second as internal. Also as it is a new wallet without any history we've set `rescan` option to `false`. 
+
+Using bitcoin-cli is not super convenient, but doable.
 
 ## Solution
 
