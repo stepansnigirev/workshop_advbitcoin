@@ -12,6 +12,10 @@ Type "help()" for more information.
 
 And you can type here. Type `help('modules')` and you will see all modules available on the board.
 
+To reset the board press `Ctrl+D` or the black button on the back.
+- `Ctrl+D` - soft reset,
+- black button - hard reset (you can also use `pyb.hard_reset()`)
+
 ## Blinking with LEDs
 
 Let's start with something simple, blinking with LEDs. LED class is available in the `pyb` module, so let's just blink with all 4 leds:
@@ -39,6 +43,14 @@ print(entropy)
 
 If we want to get more entropy - we can mix together other sources, for example readings from ADC (analog-to-digital converter). Do it yourself (hint: `pyb.ADC("A0")`)
 
+## Solution
+
 Here is the final [`main.py`](./main.py) file. 
 
 Copy it to the board and reset it (`Ctrl+D` or press the black button on the back).
+
+## Next
+
+Next we will use this entropy to generate the recovery phrase and master keys.
+
+Continue to [2 - HD keys](../2_hdkeys)
