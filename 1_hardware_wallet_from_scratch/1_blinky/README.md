@@ -24,7 +24,7 @@ Let's start with something simple, blinking with LEDs. LED class is available in
 import pyb
 leds = [pyb.LED(i) for i in range(1,5)] # LED(1)...LED(4)
 for led in leds:
-	led.toggle() # .on() or .off() also work 
+    led.toggle() # .on() or .off() also work 
 ```
 
 Yey! Works! Now let's generate a random byte sequence - we will need it for our private keys. 
