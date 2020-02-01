@@ -67,4 +67,5 @@ Every section has a `README.md` file with explanation and code snippets, and a f
 - [Tutorial](https://github.com/diybitcoinhardware/f469-disco/tree/master/docs/tutorial/) section of the documentation
 - [Youtube playlist](https://www.youtube.com/playlist?list=PLn2qRQUAAg0z_-R0swVuSsNS9bzRu6oP5) covering the content of this workshop + some theory
 - [GitHub repository](https://github.com/cryptoadvance/specter-diy) of Specter-DIY hardware wallet ([`taproot`](https://github.com/cryptoadvance/specter-diy/tree/taproot) branch for experimental taproot support)
+- [GitHub repository](https://github.com/cryptoadvance/specter-desktop) of Specter-Desktop ([`taproot`](https://github.com/cryptoadvance/specter-desktop/tree/taproot) branch for experimental taproot support)
 - [How to](https://github.com/diybitcoinhardware/f469-disco/tree/master/jupyter_kernel)  get Jupyter notebook kernel that works with the board

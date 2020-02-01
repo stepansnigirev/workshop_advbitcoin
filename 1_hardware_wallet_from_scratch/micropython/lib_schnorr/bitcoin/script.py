@@ -33,10 +33,10 @@ class Script:
 
         if script_type in ["p2wpkh", "p2wsh", "p2taproot"]:
             ver = data[0]
-            # FIXME: should be one of OP_N
-            if ver > 0:
-                ver = ver % 0x50
-            return bech32.encode(network["bech32"], ver, data[2:])
+            if ver == 0x51:
+                ver = 1
+            if ver <= 1:
+                return bech32.encode(network["bech32"], ver, data[2:])
 
         # we should never get here
         raise ValueError("Unsupported script type")
