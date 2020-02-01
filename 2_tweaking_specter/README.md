@@ -53,12 +53,12 @@ sudo udevadm control --reload-rules
 
 Every section has a `README.md` file with explanation and code snippets, and a final `main.py` file that you can use to catch up if you are lost.
 
-1. [Blinky](./1_blinky) - get started with micropython, blinking with LEDs, generate random bytes with TRNG
-2. [HD keys](./2_hdkeys) - convert entropy to recovery phrase, get master public key, import to Bitcoin Core
-3. [Addresses](./3_addresses) - get first 5 receiving addresses - segwit, nested segwit, legacy. **Bonus:** Taproot addresses.
-4. [GUI](./4_gui) - simple address navigation interface
-5. [PSBT Transactions](./5_psbt) - get and sign PSBT transaction with hardware wallet
-6. [**Bonus:** Taproot](./6_taproot) - sign a transaction with basic Schnorr-Taproot inputs
+1. [Segwit v1 addresses](./01_schnorr) - generate addresses for segwit v1
+2. [Signing](./02_signing) - sign transaction with Schnorr
+3. [PSBT in Core](./03_psbt) - create Taproot-PSBT with Bitcoin Core
+4. [Specter-Desktop](./4_specter_desktop) - Integrate Taproot-PSBT creation to Specter-Desktop
+5. Coin Selection
+6. Taproot
 
 # References
 

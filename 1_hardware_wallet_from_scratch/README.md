@@ -55,7 +55,7 @@ Every section has a `README.md` file with explanation and code snippets, and a f
 
 1. [Blinky](./1_blinky) - get started with micropython, blinking with LEDs, generate random bytes with TRNG
 2. [HD keys](./2_hdkeys) - convert entropy to recovery phrase, get master public key, import to Bitcoin Core
-3. [Addresses](./3_addresses) - get first 5 receiving addresses - segwit, nested segwit, legacy. **Bonus:** Taproot addresses.
+3. [Addresses](./3_addresses) - get first 5 receiving addresses - segwit, nested segwit, legacy.
 4. [GUI](./4_gui) - simple address navigation interface
 5. [PSBT Transactions](./5_psbt) - get and sign PSBT transaction with hardware wallet
 6. [**Bonus:** Taproot](./6_taproot) - sign a transaction with basic Schnorr-Taproot inputs
