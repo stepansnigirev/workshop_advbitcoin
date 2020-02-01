@@ -70,3 +70,23 @@ from script import Witness
 
 tx.vin[0].witness = Witness([sig])
 ```
+
+# Sign PSBT with Schnorr
+
+Add one condition to the `PSBT.sign_with(root)` method:
+
+```py
+class PSBT:
+    # ...
+    def sign_with(self, root):
+        # ...
+        # for now only single key, no taproot scripts
+        if inp.witness_utxo.script_pubkey.script_type() == "p2taproot":
+            values = [inpt.witness_utxo.value for inpt in self.inputs]
+            h = self.tx.sighash_taproot(i, inp.witness_utxo.script_pubkey, values)
+            sig_schnorr = hdkey.key.schnorr_sign(h)
+            inp.final_scriptwitness = Witness([sig_schnorr.serialize()])
+        else:
+            # segwit
+    # ...
+```
