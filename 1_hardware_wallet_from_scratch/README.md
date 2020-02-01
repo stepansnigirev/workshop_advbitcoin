@@ -53,8 +53,8 @@ sudo udevadm control --reload-rules
 
 Every section has a `README.md` file with explanation and code snippets, and a final `main.py` file that you can use to catch up if you are lost.
 
-1. [Blinky](./1_blinky) - get started with micropython, blinking with LEDs
-2. [HD keys](./2_hdkeys) - use TRNG to get some entropy, convert it to recovery phrase, get master public key, import to Bitcoin Core
+1. [Blinky](./1_blinky) - get started with micropython, blinking with LEDs, generate random bytes with TRNG
+2. [HD keys](./2_hdkeys) - convert entropy to recovery phrase, get master public key, import to Bitcoin Core
 3. [Addresses](./3_addresses) - get first 5 receiving addresses - segwit, nested segwit, legacy. **Bonus:** Taproot addresses.
 4. [GUI](./4_gui) - simple address navigation interface
 5. [PSBT Transactions](./5_psbt) - get and sign PSBT transaction with hardware wallet
@@ -64,7 +64,7 @@ Every section has a `README.md` file with explanation and code snippets, and a f
 
 - Library docs: ???
 - [Repository](https://github.com/diybitcoinhardware/f469-disco/) with MicroPython build ([`taproot`](https://github.com/diybitcoinhardware/f469-disco/tree/taproot) branch for experimental taproot support).
-- [Tutorial](https://github.com/diybitcoinhardware/f469-disco/tree/master/docs/tutorial/1_bitcoin) section of the documentation
+- [Tutorial](https://github.com/diybitcoinhardware/f469-disco/tree/master/docs/tutorial/) section of the documentation
 - [Youtube playlist](https://www.youtube.com/playlist?list=PLn2qRQUAAg0z_-R0swVuSsNS9bzRu6oP5) covering the content of this workshop + some theory
 - [GitHub repository](https://github.com/cryptoadvance/specter-diy) of Specter-DIY hardware wallet ([`taproot`](https://github.com/cryptoadvance/specter-diy/tree/taproot) branch for experimental taproot support): 
 - [How to](https://github.com/diybitcoinhardware/f469-disco/tree/master/jupyter_kernel)  get Jupyter notebook kernel that works with the board

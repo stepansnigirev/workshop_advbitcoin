@@ -41,7 +41,15 @@ entropy = hashlib.sha256(os.urandom(2048)).digest()[:16]
 print(entropy)
 ```
 
-If we want to get more entropy - we can mix together other sources, for example readings from ADC (analog-to-digital converter). Do it yourself (hint: `pyb.ADC("A0")`)
+If we want to get more entropy - we can mix together other sources, for example readings from ADC (analog-to-digital converter). 
+
+## Excersize:
+
+- Add some entropy from ADC (hint: `pyb.ADC("A0")`)
+- Save entropy as a binary file `/flash/entropy`
+- Check if you can read entropy from file - use it, otherwise - generate and save
+
+Hint: `with open("/flash/entropy", "rb") as f:` should work as normal.
 
 ## Solution
 
