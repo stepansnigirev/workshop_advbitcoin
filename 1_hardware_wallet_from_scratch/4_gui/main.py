@@ -4,7 +4,7 @@ from lvqr import QRCode
 from bitcoin import bip32, script
 from bitcoin.networks import NETWORKS
 
-# put here your xpub from previous section
+# put here your xpub from previous part
 xpub = "vpub5ZEy1ogdkmtEHB4kRUZ6o6r7RREFckx7Mh4df39FEDPYkyQYLDnTqV68z7Knnmj5eGT9res4JfQbXEMiPrnzRGKS62zQPa4uNsXM1aS8iyP"
 
 # inherits from lv.obj class - any object, will be a screen in our case
@@ -73,7 +73,7 @@ hdkey = bip32.HDKey.from_base58(xpub)
 display.init()
 scr = AddressNavigator(hdkey,                             # bip-49 account xpub
                 script_fn=lambda pub: script.p2wpkh(pub), # p2sh-p2wpkh
-                network=NETWORKS["test"]                  # testnet
+                network=NETWORKS["signet"]                # signet
                 )
 
 lv.scr_load(scr)

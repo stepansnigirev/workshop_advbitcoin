@@ -2,15 +2,13 @@
 
 [LittlevGL](https://littlevgl.com/) is a very powerful graphics library with a lot of widgets and very rich functionality. It is open-source with MIT license, supports antialiasing, customization and written in an object-oriented way even though it is in C. Recently they also made MicroPython bindings to the library so we can easily write our GUI in MicroPython (`lvgl` module).
 
-In the [previous part](../1_bitcoin) of the tutorial we were able to derive addresses from the recovery phrase, now it's time to write a small GUI that would display these addresses.
-
-**TL;DR**: Check out the [result in the simulator](https://diybitcoinhardware.com/f469-disco/simulator/?script=https://raw.githubusercontent.com/diybitcoinhardware/f469-disco/master/docs/tutorial/2_addresses_gui/main.py).
+In the [previous part](../3_addresses) of the tutorial we were able to derive addresses from the recovery phrase, now it's time to write a small GUI that would display these addresses.
 
 ## Hello lvgl
 
 Let's start with something simple. We will turn on the screen and print a single address to it.
 
-In all our builds we have a `display` module that intializes the display, registers the drivers and does all preparation steps. We only need to call `display.init()` in the beggining of the program and our display is ready to work with. On the real hardware there is one more trick that we will need to do, but we will keep it for [later](../4_gui).
+In all our builds we have a `display` module that intializes the display, registers the drivers and does all preparation steps. We only need to call `display.init()` in the beggining of the program and our display is ready to work with.
 
 Here is our first GUI that prints the address:
 
@@ -23,7 +21,7 @@ from bitcoin.networks import NETWORKS
 # parse xpub
 xpub = bip32.HDKey.from_base58("vpub5ZEy1ogdkmtEHB4kRUZ6o6r7RREFckx7Mh4df39FEDPYkyQYLDnTqV68z7Knnmj5eGT9res4JfQbXEMiPrnzRGKS62zQPa4uNsXM1aS8iyP")
 
-def get_address(idx, change=False, network=NETWORKS["test"]):
+def get_address(idx, change=False, network=NETWORKS["signet"]):
     """Returns the receiving/change address for network"""
     # we can also derive a pubkey by passing a list of integers instead of a string
     child = xpub.derive([int(change), idx])
