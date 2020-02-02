@@ -52,6 +52,12 @@ class Transaction:
         h.update(script_pubkey.serialize())
         h.update(input_index.to_bytes(4, 'little'))
         return h.digest()
+
+    def hash_amounts(self, amounts):
+        h = hashlib.sha256()
+        for amount in amounts:
+            h.update(amount.to_bytes(8, 'little'))
+        return h.digest()
     # ...
 ```
 
