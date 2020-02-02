@@ -6,16 +6,47 @@
 
 ```html
 <label>
-	<input type="radio" name="type" value="taproot" class="hidden">
-	<div class="btn radio right">Taproot</div>
+    <input type="radio" name="type" value="taproot" class="hidden">
+    <div class="btn radio right">Taproot</div>
 </label>
 ```
 
 ## Adding Taproot to Wallet class
 
+helpers
+
+```py
+def hash160(data):
+    return hashlib.new("ripemd160",
+                       hashlib.sha256(data).digest()
+                      ).digest()
+```
+
+wallet
+
 ```py
 class Wallet:
     # ...
+    def get_derivation(self, address):
+        hrp = addr.split(1)[0]
+        ver, prog = bech32.decode(hrp, addr)
+        prog = bytes(prog)
+        address_candidates = [
+            bech32.encode(hrp, 0, hash160(b'\x02'+prog)),
+            bech32.encode(hrp, 0, hash160(b'\x03'+prog))
+        ]
+        addr_info = [self.cli.getaddressinfo(addr) for addr in address_candidates]
+        info = [info for info in addr_info if "pubkey" in info][0]
+        fingerprint = info["hdmasterfingerprint"]
+        pubkey = info["pubkey"]
+        result = info["hdkeypath"]
+        return (pubkey, tuple(
+        [int.from_bytes(bytes.fromhex(fingerprint),'little')]+
+        [
+            int(p) if ("'" not in p) and ("h" not in p) else int(p[:-1])+0x80000000 
+            for p in result.split("/") if p!="m"
+        ]))
+
     def get_taproot_address(self, descriptor, index, change=False):
         if index is not None:
             descriptor = descriptor.replace("*", f"{index}")
@@ -33,8 +64,6 @@ class Wallet:
         xonly = bytes.fromhex(pubkey)[1:]
         hrp = address.split("1")[0]
         tapaddr = bech32.encode(hrp, 1, xonly)
-        # add to the address index
-        self._dict["derivations"][tapaddr] = {"pubkey": pubkey, "der": [int(change), index]}
         return tapaddr
 
     # ...
@@ -54,26 +83,9 @@ class Wallet:
                 tx = CTransaction()
                 tx.deserialize(BytesIO(rawtx))
                 psbt.inputs[i].witness_utxo = tx.vout[inp["vout"]]
-                derivation = self._dict["derivations"][inp["address"]]
-                #  = {"pubkey": pubkey, "der": [int(change), index]}
-                pub = bytes.fromhex(derivation["pubkey"])
-                der = (
-                    int.from_bytes(bytes.fromhex(self._dict["key"]["fingerprint"]),'little'),
-                    0x80000000+84,
-                    0x80000000+1,
-                    0x80000000,
-                    derivation["der"][0],
-                    derivation["der"][1])
+                pub, der = self.get_derivation(inp["address"])
                 psbt.inputs[i].hd_keypaths[pub] = der
-            derivation = self._dict["derivations"][self["change_address"]]
-            pub = bytes.fromhex(derivation["pubkey"])
-            der = (
-                    int.from_bytes(bytes.fromhex(self._dict["key"]["fingerprint"]),'little'),
-                    0x80000000+84,
-                    0x80000000+1,
-                    0x80000000,
-                    derivation["der"][0],
-                    derivation["der"][1])
+            pub, der = self.get_derivation(self["change_address"])
             psbt.outputs[1].hd_keypaths[pub] = der
             b64psbt = psbt.serialize()
         else:
