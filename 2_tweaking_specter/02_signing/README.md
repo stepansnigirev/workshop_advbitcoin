@@ -79,7 +79,7 @@ vin = [transaction.TransactionInput(inp["txid"], inp["vout"]) for inp in inputs]
 vout = [transaction.TransactionOutput(inp["value"]-1500, inp["script"]) for inp in inputs]
 tx = transaction.Transaction(vin=vin,vout=vout)
 print("Unsigned transaction:")
-print(hexlify(tx.serialize())
+print(hexlify(tx.serialize()))
 
 d = b'\x00' # sighash_all (default)
 d += tx.version.to_bytes(4, 'little')
