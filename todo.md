@@ -1,6 +1,5 @@
-hasrdware:
+hardware:
 
-- 
 - deploy https://app.specterwallet.io with autofill of wallets
 - make sure psbt has final_scriptsig
 - go through the whole workshop from scratch once with the timer
@@ -13,3 +12,5 @@ hasrdware:
 
 - preorder page?
 - cancel scan button doesn't work anymore
+
+- maybe_create_default_wallets() - then we can assign a task to it

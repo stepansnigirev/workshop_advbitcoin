@@ -76,14 +76,35 @@ DESCRIPTOR_SCRIPTS = {
 }
 ```
 
-Just run:
+After restarting the device unlock it and recover the key.
+
+You can recover the key either manually or set it from console:
 
 ```py
-derivation = "m/84h/1h/0h" # specter.DEFAULT_XPUBS[0][1]
+# set your entropy
+specter.entropy = b'7'*32
+# init keys with this entropy and empty password
+specter.init_keys("")
+# select signet or regtest network
+specter.select_network("signet")
+```
+
+When it's done we can create a descriptor for our new wallet:
+
+```py
+from binascii import hexlify
+
+# set up derivation path for the wallet
+derivation = "m/84h/1h/0h" # or specter.DEFAULT_XPUBS[0][1]
+# get xpub
 xpub = specter.keystore.get_xpub(derivation).to_base58()
+# get fingerprint
 fingerprint = hexlify(specter.keystore.fingerprint).decode()
+# construct xpub prefix
 prefix = "[%s%s]" % (fingerprint, derivation[1:])
+# construct descriptor
 descriptor = "taproot(%s%s/_)" % (prefix, xpub)
+# create wallet
 specter.keystore.create_wallet("Schnorr", descriptor)
 ```
 
