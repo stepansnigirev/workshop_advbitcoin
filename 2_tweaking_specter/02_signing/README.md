@@ -24,6 +24,7 @@ Now let's use this to sign the transaction.
 from bitcoin import ec, script, transaction
 from bitcoin.networks import NETWORKS
 from hashlib import sha256
+from ubinascii import hexlify
 
 def tagged_hash(tag, msg):
     tag_hash = sha256(tag.encode()).digest()
@@ -42,7 +43,7 @@ pub = pk.get_public_key()
 
 # pubkey in schnorr serialization
 pub_ser = pub.sec()[1:]
-print(pub_ser.hex())
+print(hexlify(pub_ser))
 
 sc = script.Script(b'\x51\x20'+pub_ser)
 myaddr = sc.address(network)
