@@ -1,6 +1,6 @@
 # Sign transactions with Schnorr
 
-MicroPython bindings are already there, new functions in `secp256k1` module:
+The relevant functions for schnorr-signatures can be found in the `secp256k1` module:
 
 - `schnorrsig_serialize(sig)` - serializes schnorr signature to 64 byte sequence
 - `schnorrsig_parse(bytes)` - parses 64-byte schnorr signature
@@ -13,8 +13,12 @@ MicroPython bindings are already there, new functions in `secp256k1` module:
 - `xonly_pubkey_tweak_add(pubkey, tweak)` - adds `tweak*G` to public key (and negates if necessary)
 - `xonly_seckey_tweak_add(secret, tweak)` - adds tweak to secret key
 
+## Exkurs: How does these functions got in there? (Skip and revisit later if interested!)
+This module is injected via the [usermods-folder of the f469-disco repo](https://github.com/stepansnigirev/f469-disco/tree/master/usermods/usecp256k1) and it comes from [bitcoin-core/secp256k1](https://github.com/bitcoin-core/secp256k1/tree/0d9540b13ffcd7cd44cc361b8744b93d88aa76ba). The Schnorr-branch of Stepans fork of f469-disco is therefore [pointing to](https://github.com/stepansnigirev/f469-disco/commit/3d678c5566fe7ba970be2aea5ab49f2322968242#diff-c4aa1791fc332f8ae84b0825dddc1e19) 
+[jonasnick's fork](https://github.com/jonasnick/secp256k1/tree/6603c32a10eb0025ac35adc159bf9c57b8e29334) of secp256k1. 
 Now let's use this to sign the transaction.
 
+## create the transaction
 ```py
 # add here transaction construction example maybe
 ```
