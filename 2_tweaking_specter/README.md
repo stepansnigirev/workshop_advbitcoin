@@ -13,7 +13,7 @@ git clone https://github.com/stepansnigirev/workshop_advbitcoin.git
 5. copy the file to the  `DIS_F69NI` mount-point
 6. Wait until the flashing (of the lights) stop and the mount reconnects
 
-# The bitcoin python library
+# The python-part (bitcoin python library + specter)
 
 1. Connect the board via MicroUSB cable
 2. Check that it mounts as `PYBFLASH`
