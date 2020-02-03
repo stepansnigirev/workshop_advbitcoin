@@ -7,10 +7,9 @@ git clone https://github.com/stepansnigirev/workshop_advbitcoin.git
 ```
 2. Connect the board via MiniUSB cable to your computer.
 3. Check that it mounts  `DIS_F69NI`
-4. Download the taproot-prepared micropython-build from Stepans fork of the f469-disco repository
-```
-wget https://github.com/stepansnigirev/f469-disco/releases/download/1.0.1-alpha/upy-f469disco-empty.bin
-```
+
+4. cop the `firmware.bin` out of the files-folder of this repo to the `DIS_F69NI` mountpoint
+
 5. copy the file to the  `DIS_F69NI` mount-point
 6. Wait until the flashing (of the lights) stop and the mount reconnects
 
@@ -25,10 +24,16 @@ wget https://github.com/stepansnigirev/f469-disco/releases/download/1.0.1-alpha/
 5. Copy the files from this repository `/files/` to the `PYFLASH` directory so that you have about such a structure:
 ```
 ➜  PYBFLASH ls -l
-(TODDO: FILL in here)
+total 2
+drwxr-xr-x 3 kim kim 2048 Feb  3 12:27 lib
+➜  PYBFLASH ls -l lib 
+total 4
+drwxr-xr-x 2 kim kim 2048 Feb  3 12:27 bitcoin
+-rw-r--r-- 1 kim kim 1258 Feb  3 12:27 lvqr.py
+
 ```
 
-## How to connect
+# How to connect
 
 Install `pyserial` module:
 
@@ -65,7 +70,7 @@ And then restart the udev service:
 sudo udevadm control --reload-rules
 ```
 
-## Running Specter-DIY
+# Running Specter-DIY
 
 Create `main.py` on `PYBFLASH` with the following content:
 
