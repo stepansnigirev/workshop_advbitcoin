@@ -87,7 +87,7 @@ descriptor = "taproot(%s%s/_)" % (prefix, xpub)
 specter.keystore.create_wallet("Schnorr", descriptor)
 ```
 
-Or add a new default wallet with `taproot` script:
+**Or** add a new default wallet with `taproot` script:
 
 ```py
 def select_network(name):
@@ -103,7 +103,9 @@ def select_network(name):
         prefix = "[%s%s]" % (fingerprint, derivation[1:])
         descriptor = "wpkh(%s%s/_)" % (prefix, xpub)
         keystore.create_wallet("Default", descriptor)
-
+        
+        # add these two lines to add a taproot-default wallet
         descriptor = "taproot(%s%s/_)" % (prefix, xpub)
         keystore.create_wallet("Schnorr", descriptor)
 ```
+Probably it would be better to refactor the creation of the wallets out of a "select_network" method where no one expect that stuff like that gets done.
