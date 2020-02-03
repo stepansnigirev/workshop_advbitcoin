@@ -24,7 +24,7 @@ Now let's use this to sign the transaction.
 from bitcoin import ec, script, transaction
 from bitcoin.networks import NETWORKS
 from hashlib import sha256
-from ubinascii import hexlify
+from ubinascii import hexlify, unhexlify
 
 def tagged_hash(tag, msg):
     tag_hash = sha256(tag.encode()).digest()
