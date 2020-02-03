@@ -9,8 +9,7 @@ We have secp256k1 with schnorr support, let's integrate it in hardware and softw
 Even without any changes we can do it:
 
 ```py
-from bitcoin import ec
-from bitcoin import bech32
+from bitcoin import ec, bech32, script
 
 # terrible private key
 secret = ec.PrivateKey(b'5'*32)
@@ -85,7 +84,7 @@ xpub = specter.keystore.get_xpub(derivation).to_base58()
 fingerprint = hexlify(specter.keystore.fingerprint).decode()
 prefix = "[%s%s]" % (fingerprint, derivation[1:])
 descriptor = "taproot(%s%s/_)" % (prefix, xpub)
-keystore.create_wallet("Schnorr", descriptor)
+specter.keystore.create_wallet("Schnorr", descriptor)
 ```
 
 Or add a new default wallet with `taproot` script:
