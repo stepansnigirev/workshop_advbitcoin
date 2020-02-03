@@ -25,6 +25,7 @@ from bitcoin import ec, script, transaction
 from bitcoin.networks import NETWORKS
 from hashlib import sha256
 from ubinascii import hexlify, unhexlify
+import secp256k1
 
 def tagged_hash(tag, msg):
     tag_hash = sha256(tag.encode()).digest()
@@ -139,7 +140,7 @@ print(len(d))
 print("sighash:", hexlify(d))
 msg = tagged_hash("TapSighash",d)
 sig = secp256k1.schnorrsig_sign(msg, secret)
-print(hex(sig))
+print(hexlify(sig))
 tx.vin[0].witness = script.Witness([sig])
 
 print("Signed transaction:")
