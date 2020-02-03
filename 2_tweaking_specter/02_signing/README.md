@@ -68,7 +68,7 @@ for i, out in enumerate(prevtx.vout):
 inputs = [
     # taproot
     {
-        "txid": bytes.fromhex("3a715c1decb9a34638b56790abe40a8cd6254ad97d1542906ec4b0e689f3ffa0"),
+        "txid": unhexlify("3a715c1decb9a34638b56790abe40a8cd6254ad97d1542906ec4b0e689f3ffa0"),
         "vout": vout,
         "value": prevout.value,
         "script": prevout.script_pubkey
@@ -79,7 +79,7 @@ vin = [transaction.TransactionInput(inp["txid"], inp["vout"]) for inp in inputs]
 vout = [transaction.TransactionOutput(inp["value"]-1500, inp["script"]) for inp in inputs]
 tx = transaction.Transaction(vin=vin,vout=vout)
 print("Unsigned transaction:")
-print(tx.serialize().hex())
+print(hexlify(tx.serialize())
 
 d = b'\x00' # sighash_all (default)
 d += tx.version.to_bytes(4, 'little')
@@ -91,7 +91,7 @@ for inp in tx.vin:
     h.update(bytes(reversed(inp.txid)))
     h.update(inp.vout.to_bytes(4, 'little'))
 raw = h.digest()
-print(raw.hex())
+print(hexlify(raw))
 d += raw
 
 print("amounts")
@@ -99,7 +99,7 @@ h = sha256()
 for inp in inputs:
     h.update(inp["value"].to_bytes(8, 'little'))
 raw = h.digest()
-print(raw.hex())
+print(hexlify(raw))
 d += raw
 
 print("sequences")
@@ -107,7 +107,7 @@ h = sha256()
 for inp in tx.vin:
     h.update(inp.sequence.to_bytes(4, 'little'))
 raw = h.digest()
-print(raw.hex())
+print(hexlify(raw))
 d += raw
 
 print("outputs")
@@ -115,35 +115,35 @@ h = sha256()
 for out in tx.vout:
     h.update(out.serialize())
 raw = h.digest()
-print(raw.hex())
+print(hexlify(raw))
 d += raw
 
 print("spend_type")
 raw = b"\x00"
-print(raw.hex())
+print(hexlify(raw))
 d += raw
 
 print("prevout")
 raw = prevout.script_pubkey.serialize()
-print(raw.hex())
+print(hexlify(raw))
 d += raw
 
 print("index")
 raw = b'\x00'*4
-print(raw.hex())
+print(hexlify(raw))
 d += raw
 
 # ???
 d = b'\x00' + d
 print(len(d))
-print("sighash:", d.hex())
+print("sighash:", hexlify(d))
 msg = tagged_hash("TapSighash",d)
 sig = secp256k1.schnorrsig_sign(msg, secret)
-print(sig.hex())
+print(hex(sig))
 tx.vin[0].witness = script.Witness([sig])
 
 print("Signed transaction:")
-print(tx.serialize().hex())
+print(hexlify(tx.serialize()))
 
 print(msg)
 print(sig)
