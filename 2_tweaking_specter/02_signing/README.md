@@ -26,8 +26,9 @@ from embit.networks import NETWORKS
 from hashlib import sha256
 from schnorr import *
 
-# def hashtag(tag, data):
-#   return sha256(sha256(tag).digest() + sha256(tag).digest() + data).digest()
+def tagged_hash(tag, msg):
+    tag_hash = sha256(tag.encode()).digest()
+    return sha256(tag_hash + tag_hash + msg).digest()
 
 network = NETWORKS['signet']
 
