@@ -134,7 +134,7 @@ d = b'\x00' + d
 print(len(d))
 print("sighash:", d.hex())
 msg = tagged_hash("TapSighash",d)
-sig = schnorr_sign(msg, secret)
+sig = secp256k1.schnorrsig_sign(msg, secret)
 print(sig.hex())
 tx.vin[0].witness = script.Witness([sig])
 
