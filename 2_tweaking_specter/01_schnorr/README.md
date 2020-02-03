@@ -11,6 +11,7 @@ Even without any changes we can do it:
 ```py
 from bitcoin import ec
 from bitcoin import bech32
+from bitcoin import script
 
 # terrible private key
 secret = ec.PrivateKey(b'5'*32)
