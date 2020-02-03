@@ -1,5 +1,6 @@
 hasrdware:
 
+- 
 - deploy https://app.specterwallet.io with autofill of wallets
 - make sure psbt has final_scriptsig
 - go through the whole workshop from scratch once with the timer
