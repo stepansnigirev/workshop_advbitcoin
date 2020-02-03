@@ -21,10 +21,9 @@ Now let's use this to sign the transaction.
 ## create the transaction
 ```py
 # add here transaction construction example maybe
-from embit import ec, script, transaction
-from embit.networks import NETWORKS
+from bitcoin import ec, script, transaction
+from bitcoin.networks import NETWORKS
 from hashlib import sha256
-from schnorr import *
 
 def tagged_hash(tag, msg):
     tag_hash = sha256(tag.encode()).digest()
