@@ -1,16 +1,32 @@
 # Setup
 
+## The firmware
 1. Clone this repo:
 ```
 git clone https://github.com/stepansnigirev/workshop_advbitcoin.git
 ```
+2. Connect the board via MiniUSB cable to your computer.
+3. Check that it mounts  `DIS_F69NI`
+4. Download the taproot-prepared micropython-build from Stepans fork of the f469-disco repository
+```
+wget https://github.com/stepansnigirev/f469-disco/releases/download/1.0.1-alpha/upy-f469disco-empty.bin
+```
+5. copy the file to the  `DIS_F69NI` mount-point
+6. Wait until the flashing (of the lights) stop and the mount reconnects
 
-2. Connect the board over MicroUSB cable to your computer.
-3. Check that it mounts as `PYBFLASH`
+# The bitcoin python library
+
+1. Connect the board via MicroUSB cable
+2. Check that it mounts as `PYBFLASH`
 4. Check that the board is also visible as a Virtual COM Port:
 	- on **MacOS** it should be `/dev/tty.usb<something>` (on my PC it's `/dev/tty.usbmodem3379374D33382`)
 	- on **Linux** it should be `/dev/ttyACM0`
 	- on **Windows** check `Device Manager` - `COM ports`
+5. Copy the files from this repository `/files/` to the `PYFLASH` directory so that you have about such a structure:
+```
+➜  PYBFLASH ls -l
+(TODDO: FILL in here)
+```
 
 ## How to connect
 
