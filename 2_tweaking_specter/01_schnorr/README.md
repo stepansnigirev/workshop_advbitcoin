@@ -130,3 +130,31 @@ def select_network(name):
         keystore.create_wallet("Schnorr", descriptor)
 ```
 Probably it would be better to refactor the creation of the wallets out of a "select_network" method where no one expect that stuff like that gets done.
+
+## Get some money to the wallet
+
+Now when we navigate to **Wallets** we see a new wallet called "Schnorr".
+When we open it we see the addresses, and these addresses are also printed to the console.
+
+Let's copy this address and get some money into it.
+
+Later we will tune Specter-Desktop to import the addresses and prepare transactions for us, but now let's use bitcoin JSON-RPC and to it manually. There is an `rpc.py` file in `files` folder that gives us a simple JSON-RPC class that we can connect to our node.
+
+Create a test wallet where we will import our first address:
+
+```py
+from rpc import BitcoinCLI # name is weird, makes sense to rename it
+
+addr = "sb1pwzvw8yfxsupvcgylrlrn6pc376sfxa944vy93p0yegfz3dgsyteqewx2ux"
+
+rpc = BitcoinCLI("specter","TruckWordTrophySolidVintageFieldGalaxyOrphanSeek", 
+    protocol="https", host="schnorr.specterwallet.io", port=443)
+
+# test that it works
+rpc.getmininginfo()
+
+# remote addr sb1quyxjpqm5yayc08ckfcdmwk4vg3dx8m8gu48t7g
+# main wallet
+default_wallet = rpc.wallet("")
+default_wallet.getbalances()
+```
