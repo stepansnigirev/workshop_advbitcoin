@@ -77,7 +77,7 @@ Create `main.py` on `PYBFLASH` with the following content:
 ```py
 import specter
 
-specter.start()
+specter.run()
 ```
 
 Restart the board (`pyb.hard_reset()` or press black button)
