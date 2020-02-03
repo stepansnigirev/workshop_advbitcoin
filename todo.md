@@ -8,5 +8,7 @@ hasrdware:
 - write text description for chapters
 - move Setup to main readme, not individual workshop files
 - solder battaries
+- tests - maybe unittests instead of integration
 
 - preorder page?
+- cancel scan button doesn't work anymore
