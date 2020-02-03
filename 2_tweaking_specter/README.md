@@ -23,13 +23,13 @@ git clone https://github.com/stepansnigirev/workshop_advbitcoin.git
 	- on **Windows** check `Device Manager` - `COM ports`
 5. Copy the files from this repository `/files/` to the `PYFLASH` directory so that you have about such a structure:
 ```
-➜  PYBFLASH ls -l
-total 2
-drwxr-xr-x 3 kim kim 2048 Feb  3 12:27 lib
-➜  PYBFLASH ls -l lib 
-total 4
-drwxr-xr-x 2 kim kim 2048 Feb  3 12:27 bitcoin
--rw-r--r-- 1 kim kim 1258 Feb  3 12:27 lvqr.py
+➜  PYBFLASH ls       
+gui          main.py      __pycache__   rng.py
+keystore.py  pin.py       qrscanner.py  specter.py
+lib          platform.py  repl.py       usbhost.py
+➜  PYBFLASH ls lib   
+bitcoin  lvqr.py
+➜  PYBFLASH 
 
 ```
 
