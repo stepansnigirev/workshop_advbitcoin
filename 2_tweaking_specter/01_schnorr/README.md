@@ -214,7 +214,32 @@ args = [
                 "rescan": False
             }
         ]
+w.importmulti(args)
 ```
+** THIS DOES NOT WORK, NOT SURE WHY **
+As an alternative, you can importmulti via the descriptor and some range. If you don't have the descriptor, obtain it on the device like this:
+```
+>>> specter.keystore._wallets[1].descriptor
+```
+On the python3:
+```
+descriptor = 'your descriptor here'.replace("_","0/*")
+from descriptor import AddChecksum
+descriptor_with_checksum = AddChecksum(descriptor)
+args = [
+            {
+                "desc": descriptor_with_checksum,
+                "internal": False, 
+                "range": [0, 5], 
+                "timestamp": "now", 
+                "keypool": True, 
+                "watchonly": True,
+                "rescan": False
+            }
+        ]
+w.importmulti(args)
+```
+
 The gebalance-call should still show a zero-balance.
 Now if you call `w.getbalances()` it should show `0.1` BTC in `watchonly` `untrusted_pending`.
 
