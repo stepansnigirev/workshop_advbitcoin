@@ -1,7 +1,7 @@
 # Purpose
 There are two directories in this repo:
-* 1_hardware_wallet_from_scratch](./1_hardware_wallet_from_scratch) refers to the "Workshop 2A - Build a hardware wallet from scratch with MicroPython - Stepan Snigrev"
-* [2_tweaking_specter]()./2_tweaking_specter) refers to the "Workshop 3C - Hack the Specter - tune a DIY hardware wallet to fit YOUR security model - Stepan Snigrev"
+* [1_hardware_wallet_from_scratch](./1_hardware_wallet_from_scratch) refers to the "Workshop 2A - Build a hardware wallet from scratch with MicroPython - Stepan Snigrev"
+* [2_tweaking_specter](./2_tweaking_specter) refers to the "Workshop 3C - Hack the Specter - tune a DIY hardware wallet to fit YOUR security model - Stepan Snigrev"
 
 This repo is also available via https://workshop.specterwallet.io/
 
