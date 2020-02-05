@@ -69,6 +69,7 @@ for i, out in enumerate(prevtx.vout):
 inputs = [
     # taproot
     {
+        # obtain txid via rpc.decoderawtransaction(hex_tx)
         "txid": unhexlify("3a715c1decb9a34638b56790abe40a8cd6254ad97d1542906ec4b0e689f3ffa0"),
         "vout": vout,
         "value": prevout.value,
