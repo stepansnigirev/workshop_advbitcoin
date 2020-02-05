@@ -34,9 +34,9 @@ addr = bech32.encode("sb",1,xonly)
 
 Using JUST a public key in the address is ok if only you control the whole pubkey, also it works if you don't use taproot script. In general it's recommended to use an empty tweak to the public key even if you don't use a script. More on that later.
 
-Now we can take this private key and receive some money on it. 
+Now we could take this private key and receive some money on it. 
 Here is a faucet: https://faucet.specterwallet.io/
-
+However, let's defer that until we have imported the address into a core-wallet (below).
 *Note: save the transaction details you got from the faucet, we will use that later*
 
 ## Adding `.address()` support for Segwit v1 scripts
@@ -202,12 +202,12 @@ w.importmulti()
 w.getbalances()
 ```
 
-We need to import the addresses to the wallet. importmulti either takes a descriptor or individual addresses. Let's do it with that individual address:
+We need to import the addresses to the wallet. importmulti either takes a descriptor or individual addresses. As taproot-descriptors are not supported (yet) by [core](https://github.com/bitcoin/bitcoin/blob/master/doc/descriptors.md#reference), let's do it with that individual address:
 
 ```
 args = [
             {
-		"scriptPubKey":{"address":"sb1px8kuk9k06ru9nqzj77eg0vrsg7s3ccyk0s08avp90cp92ffemxzq2nee8y" },
+		"scriptPubKey":{"address":"yourAddressHere" },
 
                 "timestamp": "now",  
                 "watchonly": True,
@@ -216,32 +216,12 @@ args = [
         ]
 w.importmulti(args)
 ```
-**THIS DOES NOT WORK, NOT SURE WHY**
-
-As an alternative, you can importmulti via the descriptor and some range. If you don't have the descriptor, obtain it on the device like this:
-```
->>> specter.keystore._wallets[1].descriptor
-```
-On the python3:
-```
-descriptor = 'your descriptor here'.replace("_","0/*")
-from descriptor import AddChecksum
-descriptor_with_checksum = AddChecksum(descriptor)
-args = [
-            {
-                "desc": descriptor_with_checksum,
-                "internal": False, 
-                "range": [0, 5], 
-                "timestamp": "now", 
-                "keypool": True, 
-                "watchonly": True,
-                "rescan": False
-            }
-        ]
-w.importmulti(args)
-```
 
 The gebalance-call should still show a zero-balance.
+
+Here is a faucet: https://faucet.specterwallet.io/
+*Note: save the transaction details you got from the faucet, we will use that later*
+
 Now if you call `w.getbalances()` it should show `0.1` BTC in `watchonly` `untrusted_pending`.
 
 We have some money, let's send them back to the faucet.
