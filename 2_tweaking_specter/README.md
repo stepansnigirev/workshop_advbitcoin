@@ -84,9 +84,18 @@ Restart the board (`pyb.hard_reset()` or press black button)
 
 ## Running Specter-Desktop
 
-*copy-paste here*
+in a nutshell:
+```
+git clone https://github.com/cryptoadvance/specter-desktop.git
+cd specter-desktop
+virtualenv --python=python3 .env
+source .env/bin/activate
+pip3 install -r requirements.txt
 
-`pip3 install -r requirements.txt`
+# run the server
+cd specter-desktop
+python3 src/specter/server.py
+```
 
 # Workshop content
 
