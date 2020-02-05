@@ -44,6 +44,9 @@ def cancel_scan():
 
 def del_wallet(w):
     keystore.delete_wallet(w)
+    if len(keystore.wallets) == 0:
+        create_default_wallets()
+    wallets_menu()
 
 def select_wallet(w):
     popups.show_wallet(w, delete_cb=del_wallet)
@@ -211,6 +214,18 @@ def set_default_xpubs(net):
     DEFAULT_XPUBS.append(("Single key", "m/84h/%dh/0h" % net["bip32"]))
     DEFAULT_XPUBS.append(("Multisig", "m/48h/%dh/0h/2h" % net["bip32"]))
 
+def create_default_wallets():
+    # create a wallet descriptor
+    # this is not exactly compatible with Bitcoin Core though.
+    # '_' means 0/* or 1/* - standard receive and change 
+    #                        derivation patterns
+    derivation = DEFAULT_XPUBS[0][1]
+    xpub = keystore.get_xpub(derivation).to_base58()
+    fingerprint = hexlify(keystore.fingerprint).decode('utf-8')
+    prefix = "[%s%s]" % (fingerprint, derivation[1:])
+    descriptor = "wpkh(%s%s/_)" % (prefix, xpub)
+    keystore.create_wallet("Default", descriptor)
+
 def select_network(name):
     global network
     if name in NETWORKS:
@@ -221,16 +236,7 @@ def select_network(name):
             keystore.load_wallets(name)
             # create a default wallet if it doesn't exist
             if len(keystore.wallets) == 0:
-                # create a wallet descriptor
-                # this is not exactly compatible with Bitcoin Core though.
-                # '_' means 0/* or 1/* - standard receive and change 
-                #                        derivation patterns
-                derivation = DEFAULT_XPUBS[0][1]
-                xpub = keystore.get_xpub(derivation).to_base58()
-                fingerprint = hexlify(keystore.fingerprint).decode('utf-8')
-                prefix = "[%s%s]" % (fingerprint, derivation[1:])
-                descriptor = "wpkh(%s%s/_)" % (prefix, xpub)
-                keystore.create_wallet("Default", descriptor)
+                create_default_wallets()
     else:
         raise RuntimeError("Unknown network")
 

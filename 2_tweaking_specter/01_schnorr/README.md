@@ -1,17 +1,25 @@
 # Building on top of secp256k1
 
-**Here some BIP-Schnorr intro**
+[BIP-340](https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki), [BIP-341](https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki) and [BIP-342](https://github.com/bitcoin/bips/blob/master/bip-0342.mediawiki) are describing how we should use Schnorr signatures and Taproot in a new upcoming softfork with Segwit version 1 addresses.
 
-We have secp256k1 with schnorr support, let's integrate it in hardware and software.
+And there is even a [pull request](https://github.com/bitcoin/bitcoin/pull/17977) that implements segwit v1 verification for Bitcoin Core.
+
+libsecp256k1 is also getting [schnorr support](https://github.com/jonasnick/secp256k1/tree/schnorrsig).
+
+Looks like we have everything to try out Schnorr and Taproot both on hardware and software.
 
 ## Generating segwit v1 addresses
 
-Even without any changes we can do it:
+Segwit v1 addresses correspond to a v1 segwit script of the form `OP_1 <x_only_pubkey>`.
+
+Here `OP_1` is actually `0x51` and pubkey is serialized according to BIP-340, so only x-coordinate goes to the script. For every x coordinate there are two possible points corresponging to our private key and negated private key. We always choose a point that has a Y-coordinate that is a quadratic residue (you can take a square root of it).
+
+Let's create a segwit v1 script and address for signet for some public key `P`:
 
 ```py
 from bitcoin import ec, bech32, script
 
-# terrible private key
+# terrible private key, use another one
 secret = ec.PrivateKey(b'5'*32)
 pub = secret.get_public_key()
 xonly = pub.sec()[1:]
@@ -24,18 +32,45 @@ sc = script.Script(b'\x51\x20'+xonly)
 addr = bech32.encode("sb",1,xonly)
 ```
 
+Using JUST a public key in the address is ok if only you control the whole pubkey, also it works if you don't use taproot script. In general it's recommended to use an empty tweak to the public key even if you don't use a script. More on that later.
+
+Now we can take this private key and receive some money on it. 
+Here is a faucet: https://faucet.specterwallet.io/
+
+*Note: save the transaction details you got from the faucet, we will use that later*
+
 ## Adding `.address()` support for Segwit v1 scripts
 
-File: `bitcoin/script.py`:
+Now when we figured out how to generate segwit v1 scripts and addresses let's integrate it into the library. We want this functionality to appear in `script` module, so we need to edit `bitcoin/script.py` file.
 
-- change `self.script_type()` to detect that it's `taproot` script
-- change `self.address()` to encode `taproot` script to `bech32` encoding
-- write a helper function `p2taproot(pubkey)` that generates correct script
+We don't have an abbreviation for segwit v1 scripts yet, it might be `p2wpk`, or `p2taproot`. For now we just need to call it somehow, so let's call it `p2taproot`.
+
+Here is what we need to do:
+
+- change `Script.script_type()` method to detect that it's `p2taproot` script
+- change `Script.address()` to encode `p2taproot` script to `bech32` encoding
+- write a helper function `p2taproot(pubkey, tweak)` that generates a segwit v1 script
 
 Homework:
 
 - add `tweak` to generate address according to recommendations in BIPs.
 - use `tweak` to include Taproot script
+
+If we implemented everything correctly we could refactor our previous code and get the same result:
+
+```py
+from bitcoin import script
+from bitcoin.networks import NETWORKS
+
+# terrible private key, use another one
+secret = ec.PrivateKey(b'5'*32)
+pub = secret.get_public_key()
+
+# OP_1<len><pubkey>
+sc = script.p2taproot(pub) # (secret will also work)
+
+print(sc.address(NETWORKS["signet"]))# - this will fail at the moment
+```
 
 Solution:
 
@@ -67,7 +102,9 @@ def p2taproot(pubkey, tweak=None):
 
 ## Integration with Specter-DIY
 
-Add a new type of descriptor to `keystore.py` module:
+Specter uses descriptor language to generate addresses for the wallets. `keystore.DESCRIPTOR_SCRIPTS` dictionary defines all known functions used in descriptors (like `wpkh`,`wsh`,`sortedmulti` etc).
+
+To add segwit v1 address generation we only need to add a new type of descriptor function to `keystore.py` module:
 
 ```py
 DESCRIPTOR_SCRIPTS = {
@@ -76,9 +113,9 @@ DESCRIPTOR_SCRIPTS = {
 }
 ```
 
-After restarting the device unlock it and recover the key.
+This extra key in the dictionary tells the wallet that if it finds `taproot()` in the descriptor it needs to pass arguments to the `script.p2taproot` function.
 
-You can recover the key either manually or set it from console:
+After restarting the device unlock it and recover the key. You can recover the key either manually or set it from console, it will also redirect you to the main screen of the wallet:
 
 ```py
 # set your entropy
@@ -89,7 +126,9 @@ specter.init_keys("")
 specter.select_network("signet")
 ```
 
-When it's done we can create a descriptor for our new wallet:
+We could also add these lines to the `main.py` file to init entropy and get to the main screen every time we reboot the device.
+
+Now we can create a descriptor for our new wallet:
 
 ```py
 from binascii import hexlify
@@ -104,47 +143,49 @@ fingerprint = hexlify(specter.keystore.fingerprint).decode()
 prefix = "[%s%s]" % (fingerprint, derivation[1:])
 # construct descriptor
 descriptor = "taproot(%s%s/_)" % (prefix, xpub)
+# let's check what we got
+print(descriptor)
 # create wallet
 specter.keystore.create_wallet("Schnorr", descriptor)
 ```
 
-**Or** add a new default wallet with `taproot` script:
+**Or** we can add a new **default** wallet with a `taproot` script (add two last lines):
 
 ```py
-def select_network(name):
-    #...
-    if len(keystore.wallets) == 0:
-        # create a wallet descriptor
-        # this is not exactly compatible with Bitcoin Core though.
-        # '_' means 0/* or 1/* - standard receive and change 
-        #                        derivation patterns
-        derivation = DEFAULT_XPUBS[0][1]
-        xpub = keystore.get_xpub(derivation).to_base58()
-        fingerprint = hexlify(keystore.fingerprint).decode('utf-8')
-        prefix = "[%s%s]" % (fingerprint, derivation[1:])
-        descriptor = "wpkh(%s%s/_)" % (prefix, xpub)
-        keystore.create_wallet("Default", descriptor)
-        
-        # add these two lines to add a taproot-default wallet
-        descriptor = "taproot(%s%s/_)" % (prefix, xpub)
-        keystore.create_wallet("Schnorr", descriptor)
-```
-Probably it would be better to refactor the creation of the wallets out of a "select_network" method where no one expect that stuff like that gets done.
+def create_default_wallets():
+    # create a wallet descriptor
+    # this is not exactly compatible with Bitcoin Core though.
+    # '_' means 0/* or 1/* - standard receive and change 
+    #                        derivation patterns
+    derivation = DEFAULT_XPUBS[0][1]
+    xpub = keystore.get_xpub(derivation).to_base58()
+    fingerprint = hexlify(keystore.fingerprint).decode('utf-8')
+    prefix = "[%s%s]" % (fingerprint, derivation[1:])
+    descriptor = "wpkh(%s%s/_)" % (prefix, xpub)
+    keystore.create_wallet("Default", descriptor)
 
-## Get some money to the wallet
+    # add these two lines to add a taproot-default wallet
+    descriptor = "taproot(%s%s/_)" % (prefix, xpub)
+    keystore.create_wallet("Schnorr", descriptor)
+```
+
+## Preparing Bitcon Core to work with our wallet
 
 Now when we navigate to **Wallets** we see a new wallet called "Schnorr".
 When we open it we see the addresses, and these addresses are also printed to the console.
 
-Let's copy this address and get some money into it.
+Let's copy the first address and get some money into it. We need Bitcoin Core to watch our addresses in order to contruct transactions for us.
 
-Later we will tune Specter-Desktop to import the addresses and prepare transactions for us, but now let's use bitcoin JSON-RPC and to it manually. There is an `rpc.py` file in `files` folder that gives us a simple JSON-RPC class that we can connect to our node.
+Later we will tune Specter-Desktop to import the addresses and prepare transactions for us, but now let's use JSON-RPC and to it manually. There is an `rpc.py` file in `files` folder that gives us a simple JSON-RPC class that we can connect to our node. 
+
+You can also use command line or AuthProxy from Bitcoin Python testframework if you like.
 
 Create a test wallet where we will import our first address:
 
 ```py
 from rpc import BitcoinCLI # name is weird, makes sense to rename it
 
+# put your address here
 addr = "sb1pwzvw8yfxsupvcgylrlrn6pc376sfxa944vy93p0yegfz3dgsyteqewx2ux"
 
 rpc = BitcoinCLI("specter","TruckWordTrophySolidVintageFieldGalaxyOrphanSeek", 
@@ -153,8 +194,16 @@ rpc = BitcoinCLI("specter","TruckWordTrophySolidVintageFieldGalaxyOrphanSeek",
 # test that it works
 rpc.getmininginfo()
 
-# remote addr sb1quyxjpqm5yayc08ckfcdmwk4vg3dx8m8gu48t7g
-# main wallet
-default_wallet = rpc.wallet("")
-default_wallet.getbalances()
+# some unique name to avoid collisions
+wallet_name = "myschnorr"+addr[-4:]
+rpc.createwallet(wallet_name, True)
+w = rpc.wallet(wallet_name)
+w.importmulti()
+w.getbalances()
 ```
+
+Get some money to the wallet here: http://faucet.specterwallet.io/
+
+Now if you call `w.getbalances()` it should show `0.1` BTC in `watchonly` `untrusted_pending`.
+
+We have some money, let's send them back to the faucet.

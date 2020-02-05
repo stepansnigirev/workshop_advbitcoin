@@ -8,6 +8,7 @@ hardware:
 - [x] http://workshop.specterwallet.io
 - [ ] make sure psbt has final_scriptsig
 - [ ] go through the whole workshop from scratch once
+- [ ] make sure `taproot` branches are in specter repos
 - [ ] prepare custom specter files that "just runs in dev mode"
 - [ ] write text description for chapters
 - [ ] move Setup to main readme, not individual workshop files

@@ -46,21 +46,9 @@ bitcoin  lvqr.py
 
 # How to connect
 
-Install `pyserial` module:
+On Linux and MacOS you can use `screen` (`screen /dev/ttySomeDevice 115200`, `Ctrl+A` - `Ctrl+K` to quit), on Windows [Putty](https://www.putty.org/) is a good choice.
 
-```
-pip3 install pyserial
-```
-
-This module includes a very handy tool to talk to serial ports called `miniterm.py`. 
-Connect to the board using: 
-```
-miniterm.py <port_name>
-```
-
-On Linux and MacOS you can also use `screen /dev/ttySomeDevice 115200`, on Windows [Putty](https://www.putty.org/) is a good choice.
-
-Other alternatives: `picocom`, `minicom`
+Other alternatives: `picocom`, `minicom`, `miniterm.py` from `pyserial` package.
 
 ### USB Permissioning on Linux
 
