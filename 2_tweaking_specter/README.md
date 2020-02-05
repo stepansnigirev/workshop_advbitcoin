@@ -1,5 +1,16 @@
 # Setup
 
+# Prerequisites
+* Python >= 3.7 installed via your preferred installation method
+* `pip install virtualenv`
+* You'll need either bitcoind available (> 0.18.1) on the commandline or docker installed
+* your favorite IDE, VisualStudioCode if you don't have one. If you use your own, we assume that you know how you can debug flask applications
+* If you want to run the tests with docker (optional) or run a (taproot-) regtest-node very easily via docker, please do:
+```
+docker pull registry.gitlab.com/cryptoadvance/specter-desktop/python-bitcoind:latest
+docker pull registry.gitlab.com/cryptoadvance/specter-desktop/python-bitcoind:taproot
+```
+
 ## The firmware
 1. Clone this repo:
 ```
@@ -23,13 +34,14 @@ git clone https://github.com/stepansnigirev/workshop_advbitcoin.git
 	- on **Windows** check `Device Manager` - `COM ports`
 5. Copy the files from this repository `/files/` to the `PYFLASH` directory so that you have about such a structure:
 ```
-➜  PYBFLASH ls -l
-total 2
-drwxr-xr-x 3 kim kim 2048 Feb  3 12:27 lib
-➜  PYBFLASH ls -l lib 
-total 4
-drwxr-xr-x 2 kim kim 2048 Feb  3 12:27 bitcoin
--rw-r--r-- 1 kim kim 1258 Feb  3 12:27 lvqr.py
+➜  PYBFLASH ls       
+gui          pin.py        repl.py     usbhost.py
+keystore.py  platform.py   rng.py      userdata
+lib          __pycache__   specter.py
+main.py      qrscanner.py  temp.py
+➜  PYBFLASH ls lib 
+bitcoin  lvqr.py
+➜  PYBFLASH 
 
 ```
 
@@ -47,9 +59,9 @@ Connect to the board using:
 miniterm.py <port_name>
 ```
 
-On Linux and MacOS you can also use `screen`, on Windows [Putty](https://www.putty.org/) is a good choice.
+On Linux and MacOS you can also use `screen /dev/ttySomeDevice 115200`, on Windows [Putty](https://www.putty.org/) is a good choice.
 
-Other alternatives: `picocom`, `minicom` and many others.
+Other alternatives: `picocom`, `minicom`
 
 ### USB Permissioning on Linux
 
@@ -80,7 +92,7 @@ import specter
 specter.start()
 ```
 
-Restart the board (`pyb.hard_reset()` or press black button)
+Restart the board (`pyb.hard_reset()` or press black button below LEDs on the backside)
 
 ## Running Specter-Desktop
 
@@ -96,11 +108,14 @@ Every section has a `README.md` file with explanation and code snippets, and a f
 2. [Signing](./02_signing) - sign transaction with Schnorr
 3. [PSBT in Core](./03_psbt) - create Taproot-PSBT with Bitcoin Core
 4. [Specter-Desktop](./04_specter_desktop) - Integrate Taproot-PSBT creation to Specter-Desktop
-5. Coin Selection - Kim:
-	- 02_txselect_investigate
-	- 03_txselect_rendering
-	- 04_txselect_controller_logic
-6. Taproot
+5. [Setup Desktop](./05_setup_desktop) Getting an effective development environment for Specter-Desktop
+6. [Investigate for coin selection](./06_txselect_investigate) look at the stuff which is relevant for coin selection
+7. [Unspents List](./07_txselect_rendering) Render the unspent transactions
+8. [coinselection_controller_logic](./08_txselect_controller_logic) Implement controller and logic
+9. [Implement Selection Viewing](./09_txselect_diy) Coinselection on hardware-side
+10. [Vue.js crashcourse](./10_vuejs_crashcourse) Get an idea how vuejs works in minimum time
+11. [Coinselection UX part1](./11_txselect_ux_part1) Make Coinselection an extended feature UX-wise
+12 [Coinselection UX part2](./12_txselect_ux_part2) Calculate selected coins and compare with amount to spend
 
 # References
 
