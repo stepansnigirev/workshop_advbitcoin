@@ -24,7 +24,7 @@ git clone https://github.com/stepansnigirev/workshop_advbitcoin.git
 5. copy the file to the  `DIS_F69NI` mount-point
 6. Wait until the flashing (of the lights) stop and the mount reconnects
 
-# The bitcoin python library
+# The python-part (bitcoin python library + specter)
 
 1. Connect the board via MicroUSB cable
 2. Check that it mounts as `PYBFLASH`
@@ -35,11 +35,10 @@ git clone https://github.com/stepansnigirev/workshop_advbitcoin.git
 5. Copy the files from this repository `/files/` to the `PYFLASH` directory so that you have about such a structure:
 ```
 ➜  PYBFLASH ls       
-gui          pin.py        repl.py     usbhost.py
-keystore.py  platform.py   rng.py      userdata
-lib          __pycache__   specter.py
-main.py      qrscanner.py  temp.py
-➜  PYBFLASH ls lib 
+gui          main.py      __pycache__   rng.py
+keystore.py  pin.py       qrscanner.py  specter.py
+lib          platform.py  repl.py       usbhost.py
+➜  PYBFLASH ls lib   
 bitcoin  lvqr.py
 ➜  PYBFLASH 
 
@@ -89,16 +88,25 @@ Create `main.py` on `PYBFLASH` with the following content:
 ```py
 import specter
 
-specter.start()
+specter.run()
 ```
 
 Restart the board (`pyb.hard_reset()` or press black button below LEDs on the backside)
 
 ## Running Specter-Desktop
 
-*copy-paste here*
+in a nutshell:
+```
+git clone https://github.com/cryptoadvance/specter-desktop.git
+cd specter-desktop
+virtualenv --python=python3 .env
+source .env/bin/activate
+pip3 install -r requirements.txt
 
-`pip3 install -r requirements.txt`
+# run the server
+cd specter-desktop
+python3 src/specter/server.py
+```
 
 # Workshop content
 

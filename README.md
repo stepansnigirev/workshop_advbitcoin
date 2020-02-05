@@ -1,5 +1,7 @@
 # Purpose (to be removed)
 
+Redirects here from https://workshop.specterwallet.io/
+
 Links to the repos:
 
 - https://github.com/cryptoadvance/specter-diy
@@ -11,6 +13,27 @@ We'll have two workshops on the Advancing Bitcoin Conference in London:
 * One is focussing on curious devs that never worked with hardware. The goal is to guide them through first steps of hardware development and show that they can apply their knowledge for hardware wallets. MicroPython + programming HW from scratch on the devboard. Based on the [youtube series](https://www.youtube.com/playlist?list=PLn2qRQUAAg0z_-R0swVuSsNS9bzRu6oP5).
 
 * The other one is focused on developers, both specter-diy and specter-desktop. Here we want to convince people to contribute to projects. So we need to show them that we are open for their contribution, we have already a reasonably large codebase so it's not that easy to rewrite from scratch but still not mature enough to be scared. We can show that there are still many things to do and we are willing to experiment and integrate new features.
+
+# General info
+
+## Nodes
+
+Remote Testnet & Signet nodes are available:
+
+- http(s)://schnorr.specterwallet.io - signet with taproot & schnorr
+- http(s)://testnet.specterwallet.io
+- http(s)://signet.specterwallet.io
+- port: 80 for http, 443 for https
+- rpcuser: specter
+- rpcpassword: TruckWordTrophySolidVintageFieldGalaxyOrphanSeek
+
+## Resources for the workshop
+
+- https://workshop.specterwallet.io/ - redirects to this repo
+- https://faucet.specterwallet.io/ - get some coins for Signet-Taproot network, also can broadcast transactions
+- https://app.specterwallet.io/ - web version of Specter-Desktop (mostly used for the first workshop)
+
+# Some notes (to be removed)
 
 Rough ideas about the flow for the second workshop:
 - Setting up hardware wallet and desktop app
@@ -56,20 +79,3 @@ Rough ideas about the flow for the second workshop:
 
 For each workshop, we'll create two folders which contains problem and solution in seperated files.
 We probably don't have seperated "trainer-notes".
-
-# General info
-
-Testnet & Signet nodes available:
-
-- http(s)://testnet.specterwallet.io
-- http(s)://signet.specterwallet.io
-- port: 80 for http, 443 for https
-- rpcuser: specter
-- rpcpassword: TruckWordTrophySolidVintageFieldGalaxyOrphanSeek
-
-# Let's get started
-
-- [Beginner](beginner/README.md)
-- [Advanced](advanced/README.md)
-
-# Workshops flow

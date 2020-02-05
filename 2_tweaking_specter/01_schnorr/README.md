@@ -76,18 +76,39 @@ DESCRIPTOR_SCRIPTS = {
 }
 ```
 
-Just run:
+After restarting the device unlock it and recover the key.
+
+You can recover the key either manually or set it from console:
 
 ```py
-derivation = "m/84h/1h/0h" # specter.DEFAULT_XPUBS[0][1]
+# set your entropy
+specter.entropy = b'7'*32
+# init keys with this entropy and empty password
+specter.init_keys("")
+# select signet or regtest network
+specter.select_network("signet")
+```
+
+When it's done we can create a descriptor for our new wallet:
+
+```py
+from binascii import hexlify
+
+# set up derivation path for the wallet
+derivation = "m/84h/1h/0h" # or specter.DEFAULT_XPUBS[0][1]
+# get xpub
 xpub = specter.keystore.get_xpub(derivation).to_base58()
+# get fingerprint
 fingerprint = hexlify(specter.keystore.fingerprint).decode()
+# construct xpub prefix
 prefix = "[%s%s]" % (fingerprint, derivation[1:])
+# construct descriptor
 descriptor = "taproot(%s%s/_)" % (prefix, xpub)
+# create wallet
 specter.keystore.create_wallet("Schnorr", descriptor)
 ```
 
-Or add a new default wallet with `taproot` script:
+**Or** add a new default wallet with `taproot` script:
 
 ```py
 def select_network(name):
@@ -103,7 +124,37 @@ def select_network(name):
         prefix = "[%s%s]" % (fingerprint, derivation[1:])
         descriptor = "wpkh(%s%s/_)" % (prefix, xpub)
         keystore.create_wallet("Default", descriptor)
-
+        
+        # add these two lines to add a taproot-default wallet
         descriptor = "taproot(%s%s/_)" % (prefix, xpub)
         keystore.create_wallet("Schnorr", descriptor)
+```
+Probably it would be better to refactor the creation of the wallets out of a "select_network" method where no one expect that stuff like that gets done.
+
+## Get some money to the wallet
+
+Now when we navigate to **Wallets** we see a new wallet called "Schnorr".
+When we open it we see the addresses, and these addresses are also printed to the console.
+
+Let's copy this address and get some money into it.
+
+Later we will tune Specter-Desktop to import the addresses and prepare transactions for us, but now let's use bitcoin JSON-RPC and to it manually. There is an `rpc.py` file in `files` folder that gives us a simple JSON-RPC class that we can connect to our node.
+
+Create a test wallet where we will import our first address:
+
+```py
+from rpc import BitcoinCLI # name is weird, makes sense to rename it
+
+addr = "sb1pwzvw8yfxsupvcgylrlrn6pc376sfxa944vy93p0yegfz3dgsyteqewx2ux"
+
+rpc = BitcoinCLI("specter","TruckWordTrophySolidVintageFieldGalaxyOrphanSeek", 
+    protocol="https", host="schnorr.specterwallet.io", port=443)
+
+# test that it works
+rpc.getmininginfo()
+
+# remote addr sb1quyxjpqm5yayc08ckfcdmwk4vg3dx8m8gu48t7g
+# main wallet
+default_wallet = rpc.wallet("")
+default_wallet.getbalances()
 ```
