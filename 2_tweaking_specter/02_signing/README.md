@@ -19,8 +19,8 @@ This module is injected via the [usermods-folder of the f469-disco repo](https:/
 Now let's use this to sign the transaction.
 
 ## create the transaction
+Here is an example of how to construct a taproot-transaction:
 ```py
-# add here transaction construction example maybe
 from bitcoin import ec, script, transaction
 from bitcoin.networks import NETWORKS
 from hashlib import sha256
