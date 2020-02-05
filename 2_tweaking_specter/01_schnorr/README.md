@@ -216,7 +216,8 @@ args = [
         ]
 w.importmulti(args)
 ```
-** THIS DOES NOT WORK, NOT SURE WHY **
+**THIS DOES NOT WORK, NOT SURE WHY**
+
 As an alternative, you can importmulti via the descriptor and some range. If you don't have the descriptor, obtain it on the device like this:
 ```
 >>> specter.keystore._wallets[1].descriptor
