@@ -202,8 +202,20 @@ w.importmulti()
 w.getbalances()
 ```
 
-Get some money to the wallet here: http://faucet.specterwallet.io/
+We need to import the addresses to the wallet. importmulti either takes a descriptor or individual addresses. Let's do it with that individual address:
 
+```
+args = [
+            {
+		"scriptPubKey":{"address":"sb1px8kuk9k06ru9nqzj77eg0vrsg7s3ccyk0s08avp90cp92ffemxzq2nee8y" },
+
+                "timestamp": "now",  
+                "watchonly": True,
+                "rescan": False
+            }
+        ]
+```
+The gebalance-call should still show a zero-balance.
 Now if you call `w.getbalances()` it should show `0.1` BTC in `watchonly` `untrusted_pending`.
 
 We have some money, let's send them back to the faucet.
