@@ -204,14 +204,6 @@ w.getbalances()
 We need to import the addresses to the wallet. importmulti either takes a descriptor or individual addresses. As taproot-descriptors are not supported (yet) by [core](https://github.com/bitcoin/bitcoin/blob/master/doc/descriptors.md#reference), let's do it with that individual address:
 
 ```
-[
-    {
-        "scriptPubKey":{"address": addr},
-        "timestamp":"now",
-        "internal":False,
-        "watchonly":True,
-        "keypool":True
-    }]
 args = [
             {
 		"scriptPubKey":{"address": addr },
