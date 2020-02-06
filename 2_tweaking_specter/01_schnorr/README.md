@@ -34,10 +34,10 @@ addr = bech32.encode("sb",1,xonly)
 
 Using JUST a public key in the address is ok if only you control the whole pubkey, also it works if you don't use taproot script. In general it's recommended to use an empty tweak to the public key even if you don't use a script. More on that later.
 
-Now we could take this private key and receive some money on it. 
+Now we could take this address and receive some money on it. 
 Here is a faucet: https://faucet.specterwallet.io/
-However, let's defer that until we have imported the address into a core-wallet (below).
-*Note: save the transaction details you got from the faucet, we will use that later*
+
+However, let's defer that until we have imported the address into a core-wallet (at the end of this part).
 
 ## Adding `.address()` support for Segwit v1 scripts
 
@@ -67,12 +67,12 @@ secret = ec.PrivateKey(b'5'*32)
 pub = secret.get_public_key()
 
 # OP_1<len><pubkey>
-sc = script.p2taproot(pub) # (secret will also work)
+sc = script.p2taproot(pub) # (secret should also work if we use .sec() or .xonly())
 
 print(sc.address(NETWORKS["signet"]))# - this will fail at the moment
 ```
 
-Solution:
+## Solution:
 
 ```py
 class Script:
@@ -196,23 +196,21 @@ rpc.getmininginfo()
 
 # some unique name to avoid collisions
 wallet_name = "myschnorr"+addr[-4:]
-rpc.createwallet(wallet_name, True)
+rpc.createwallet(wallet_name, True) # True for watch-only
 w = rpc.wallet(wallet_name)
 w.getbalances()
 ```
 
 We need to import the addresses to the wallet. importmulti either takes a descriptor or individual addresses. As taproot-descriptors are not supported (yet) by [core](https://github.com/bitcoin/bitcoin/blob/master/doc/descriptors.md#reference), let's do it with that individual address:
 
-```
-args = [
-            {
-		"scriptPubKey":{"address": addr },
-                "timestamp": "now",  
-                "internal":False,
-                "watchonly":True,
-                "keypool":True,
-            }
-        ]
+```py
+args = [{
+    "scriptPubKey":{"address": addr},
+    "timestamp": "now",  
+    "internal":False,
+    "watchonly":True,
+    "keypool":True,
+}]
 w.importmulti(args)
 ```
 

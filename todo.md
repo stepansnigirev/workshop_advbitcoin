@@ -6,14 +6,15 @@ hardware:
 - [x] deploy https://app.specterwallet.io
 - [x] paste psbt in specter
 - [x] http://workshop.specterwallet.io
+- [x] cleanup main README.md
+- [x] prepare custom specter files that "just runs in dev mode"
+- [x] refactor `select_network()` to use `create_default_wallets()`
 - [ ] make sure psbt has final_scriptsig
 - [ ] go through the whole workshop from scratch once
 - [ ] make sure `taproot` branches are in specter repos
-- [ ] prepare custom specter files that "just runs in dev mode"
 - [ ] write text description for chapters
 - [ ] move Setup to main readme, not individual workshop files
 - [ ] solder battaries
 - [ ] tests - maybe unittests instead of integration
 - [ ] kit preorder page?
-- [ ] maybe_create_default_wallets() - then we can assign a task to it
-- [ ] get the rest of money from sb1puh8qce7pvqr9nccss4juut2x6f38ffa80qngxgnu7mlmpn7vhrfsh2ksc4 to specter
+- [ ] get ~100 btc to my specter
