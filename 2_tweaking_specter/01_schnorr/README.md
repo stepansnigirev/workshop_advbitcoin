@@ -198,29 +198,35 @@ rpc.getmininginfo()
 wallet_name = "myschnorr"+addr[-4:]
 rpc.createwallet(wallet_name, True)
 w = rpc.wallet(wallet_name)
-w.importmulti()
 w.getbalances()
 ```
 
 We need to import the addresses to the wallet. importmulti either takes a descriptor or individual addresses. As taproot-descriptors are not supported (yet) by [core](https://github.com/bitcoin/bitcoin/blob/master/doc/descriptors.md#reference), let's do it with that individual address:
 
 ```
+[
+    {
+        "scriptPubKey":{"address": addr},
+        "timestamp":"now",
+        "internal":False,
+        "watchonly":True,
+        "keypool":True
+    }]
 args = [
             {
-		"scriptPubKey":{"address":"yourAddressHere" },
-
+		"scriptPubKey":{"address": addr },
                 "timestamp": "now",  
-                "watchonly": True,
-                "rescan": False
+                "internal":False,
+                "watchonly":True,
+                "keypool":True,
             }
         ]
 w.importmulti(args)
 ```
 
-The gebalance-call should still show a zero-balance.
+The getbalance-call should still show a zero-balance.
 
 Here is a faucet: https://faucet.specterwallet.io/
-*Note: save the transaction details you got from the faucet, we will use that later*
 
 Now if you call `w.getbalances()` it should show `0.1` BTC in `watchonly` `untrusted_pending`.
 
