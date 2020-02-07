@@ -100,7 +100,7 @@ class PrivateKey:
         return Signature(secp256k1.ecdsa_sign(msg_hash, self._secret))
 
     def sign_schnorr(self, msg_hash):
-        return SchnorrSignature(secp256k1.schnorrsig_sign(self._secret, msg_hash))
+        return SchnorrSignature(secp256k1.schnorrsig_sign(msg_hash, self._secret))
 
     def serialize(self):
         # return a copy of the secret

@@ -172,7 +172,7 @@ We can also extend the `ec.py` module to have a new signature type - `ScnorrSign
 class PrivateKey:
     # ...
     def sign_schnorr(self, msg_hash):
-        return SchnorrSignature(secp256k1.schnorrsig_sign(self._secret, msg_hash))
+        return SchnorrSignature(secp256k1.schnorrsig_sign(msg_hash, self._secret))
 # ...
 
 class SchnorrSignature:
@@ -217,17 +217,23 @@ We can add the last thing to the library - signing Taproot inputs in PSBT.
 We have a `PSBT.sign_with(root)` method that we need to extend slightly:
 
 ```py
+from bitcoin.script import Witness
+# ...
 class PSBT:
     # ...
     def sign_with(self, root):
         # ...
-        # for now only single key, no taproot scripts
-        if inp.witness_utxo.script_pubkey.script_type() == "p2taproot":
-            values = [inpt.witness_utxo.value for inpt in self.inputs]
-            h = self.tx.sighash_taproot(i, inp.witness_utxo.script_pubkey, values)
-            sig_schnorr = hdkey.key.schnorr_sign(h)
-            inp.final_scriptwitness = Witness([sig_schnorr.serialize()])
-        else:
-            # segwit
+                    elif inp.witness_utxo is not None:
+                        if inp.witness_utxo.script_pubkey.script_type() == "p2taproot":
+                            values = [inpt.witness_utxo.value for inpt in self.inputs]
+                            h = self.tx.sighash_taproot(i, inp.witness_utxo.script_pubkey, values)
+                            sig_schnorr = hdkey.key.sign_schnorr(h)
+                            inp.final_scriptwitness = Witness([sig_schnorr.serialize()])
+                        else:
+                            # segwit
     # ...
 ```
+
+With this functionality implemented we can try it out with Specter-Desktop we deployed on https://app.specterwallet.io/
+
+Next we will figure out how to manually create PSBT on the host side when Bitcoin Core doesn't know yet how to do it.

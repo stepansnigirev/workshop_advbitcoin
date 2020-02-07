@@ -115,7 +115,6 @@ def sign_psbt(wallet=None, tx=None, success_callback=None):
     for i in range(len(tx.inputs)):
         tx.inputs[i].unknown = {}
         tx.inputs[i].non_witness_utxo = None
-        tx.inputs[i].witness_utxo = None
         tx.inputs[i].sighash_type = None
         tx.inputs[i].bip32_derivations = {}
         tx.inputs[i].witness_script = None

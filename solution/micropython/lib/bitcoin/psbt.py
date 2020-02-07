@@ -4,7 +4,7 @@ from .transaction import Transaction, TransactionOutput, _parse
 from . import compact
 from . import bip32
 from . import ec
-from .script import Script
+from .script import Script, Witness
 from . import script
 
 def ser_string(s):
@@ -116,20 +116,28 @@ class PSBT:
                         # sc = inp.non_witness_utxo
                         raise NotImplementedError("Legacy signing is not implemented")
                     elif inp.witness_utxo is not None:
-                        # segwit
-                        value = inp.witness_utxo.value
-                        sc = inp.witness_utxo.script_pubkey
-                        if inp.redeem_script is not None:
-                            sc = inp.redeem_script
-                        if inp.witness_script is not None:
-                            sc = inp.witness_script
-                        if sc.script_type() == "p2wpkh":
-                            sc = script.p2pkh_from_p2wpkh(sc)
-                        h = self.tx.sighash_segwit(i, sc, value)
-                        sig = hdkey.key.sign(h)
-                    if sig is not None:
-                        # sig plus sighash_all
-                        inp.partial_sigs[mypub] = sig.serialize()+b"\x01"
+                        if inp.witness_utxo.script_pubkey.script_type() == "p2taproot":
+                            values = [inpt.witness_utxo.value for inpt in self.inputs]
+                            h = self.tx.sighash_taproot(i, inp.witness_utxo.script_pubkey, values)
+                            sig_schnorr = hdkey.key.sign_schnorr(h)
+                            inp.final_scriptwitness = Witness([sig_schnorr.serialize()])
+                        else:
+                            # segwit
+                            value = inp.witness_utxo.value
+                            sc = inp.witness_utxo.script_pubkey
+                            # segwit
+                            if inp.redeem_script is not None:
+                                sc = inp.redeem_script
+                            if inp.witness_script is not None:
+                                sc = inp.witness_script
+                            # for now only single key, no taproot scripts
+                            if sc.script_type() == "p2wpkh":
+                                sc = script.p2pkh_from_p2wpkh(sc)
+                            h = self.tx.sighash_segwit(i, sc, value)
+                            sig = hdkey.key.sign(h)
+                        if sig is not None:
+                            # sig plus sighash_all
+                            inp.partial_sigs[mypub] = sig.serialize()+b"\x01"
 
 class DerivationPath:
     def __init__(self, fingerprint, derivation):
