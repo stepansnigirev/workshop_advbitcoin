@@ -19,7 +19,7 @@ git clone https://github.com/stepansnigirev/workshop_advbitcoin.git
 2. Connect the board via MiniUSB cable to your computer.
 3. Check that it mounts  `DIS_F69NI`
 
-4. cop the `firmware.bin` out of the files-folder of this repo to the `DIS_F69NI` mountpoint
+4. copy the `firmware.bin` out of the files-folder of this repo to the `DIS_F69NI` mountpoint
 
 5. copy the file to the  `DIS_F69NI` mount-point
 6. Wait until the flashing (of the lights) stop and the mount reconnects
@@ -47,6 +47,7 @@ bitcoin  lvqr.py
 # How to connect
 
 On Linux and MacOS you can use `screen` (`screen /dev/ttySomeDevice 115200`, `Ctrl+A` - `Ctrl+K` to quit), on Windows [Putty](https://www.putty.org/) is a good choice.
+If you struggle with connecting, check whether it's a rigths-issue by using `sudo ...`
 
 Other alternatives: `picocom`, `minicom`, `miniterm.py` from `pyserial` package.
 
@@ -95,6 +96,8 @@ pip3 install -r requirements.txt
 cd specter-desktop
 python3 src/specter/server.py
 ```
+
+We'll get in much more detail in [Setup Desktop](./04_setup_desktop) so you can also skip this for now or get it quickly running, as you like :-).
 
 # Workshop content
 

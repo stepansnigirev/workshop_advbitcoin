@@ -216,7 +216,7 @@ w.importmulti(args)
 
 The getbalance-call should still show a zero-balance.
 
-Here is a faucet: https://faucet.specterwallet.io/
+consider to save the transaction-details. We might need it later but maybe listunspent will do the trick as well.
 
 Now if you call `w.getbalances()` it should show `0.1` BTC in `watchonly` `untrusted_pending`.
 
