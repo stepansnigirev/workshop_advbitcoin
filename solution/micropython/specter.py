@@ -433,7 +433,7 @@ def init_keys(password):
     seed = bip39.mnemonic_to_seed(mnemonic, password)
     keystore.load_seed(seed)
     # choose testnet by default
-    select_network("test")
+    select_network("signet")
     gc.collect()
     show_main()
     if usb_host.callback is None:
