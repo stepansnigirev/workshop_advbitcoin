@@ -103,8 +103,8 @@ Every section has a `README.md` file with explanation and code snippets, and a f
 1. [Segwit v1 addresses](./01_schnorr) - generate addresses for segwit v1
 2. [Signing](./02_signing) - sign transaction with Schnorr
 3. [PSBT in Core](./03_psbt) - create Taproot-PSBT with Bitcoin Core
-4. [Specter-Desktop](./04_specter_desktop) - Integrate Taproot-PSBT creation to Specter-Desktop
-5. [Setup Desktop](./05_setup_desktop) Getting an effective development environment for Specter-Desktop
+4. [Setup Desktop](./04_setup_desktop) Getting an effective development environment for Specter-Desktop
+5. [Specter-Desktop](./05_specter_desktop) - Integrate Taproot-PSBT creation to Specter-Desktop
 6. [Investigate for coin selection](./06_txselect_investigate) look at the stuff which is relevant for coin selection
 7. [Unspents List](./07_txselect_rendering) Render the unspent transactions
 8. [coinselection_controller_logic](./08_txselect_controller_logic) Implement controller and logic
