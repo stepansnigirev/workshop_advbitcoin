@@ -75,5 +75,5 @@ var app = new Vue({
 
 To catchup:
 ```
-git checkout training/step11
+git checkout workshop/step11
 ```

@@ -29,5 +29,5 @@ The css is definitely improvable. Suggestions highly welcome. Especially about t
 
 To catchup:
 ```
-git checkout training/step03
+git checkout workshop/step07
 ```

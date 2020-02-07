@@ -117,5 +117,5 @@ button[disabled]{
 
 to catchup:
 ```
-git checkout upstream training/step12
+git checkout workshop/step12
 ```

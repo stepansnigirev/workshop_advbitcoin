@@ -94,5 +94,5 @@ The whole method:
 
 to catchup:
 ```
-git checkout training/step04
+git checkout workshop/step08
 ```
